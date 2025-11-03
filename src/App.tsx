@@ -1,35 +1,87 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import "./App.css";
+
+import { Autocomplete, Button } from "@mui/joy";
+import Simulator from "./pages/Sim";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate();
+
+  const options = [
+    "IWA - Departure",
+    "IWA - Arrival",
+    "IWA - Closed Traffic",
+    "TUS - Departure",
+    "TUS - Arrival",
+  ];
+
+  // Optionally store selected scenario
+  const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (selectedScenario) {
+      setIsError(false);
+    }
+  }, [selectedScenario]);
+
+  const handleStart = () => {
+    if (!selectedScenario) {
+      setIsError(true);
+      return;
+    }
+
+    // Convert the scenario name to a URL-friendly format and navigate with query param
+    const scenarioParam = encodeURIComponent(selectedScenario);
+    navigate(`/sim?scenario=${scenarioParam}`);
+  };
+
+  const [isError, setIsError] = useState(false);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+      <Routes>
+        {/* Main Menu Page */}
+        <Route
+          path="/"
+          element={
+            <div className="main-menu">
+              <h1>Clear Comm</h1>
+
+              <Autocomplete
+                placeholder="Select Scenario"
+                options={options}
+                variant="soft"
+                value={selectedScenario}
+                error={isError}
+                onChange={(_, newValue) => setSelectedScenario(newValue)}
+              />
+              <Button onClick={handleStart}>Start</Button>
+            </div>
+          }
+        />
+
+        {/* Simulator Page */}
+        <Route path="/sim" element={<Simulator />} />
+      </Routes>
+      <span className="photo-credit">
+        Photo by{" "}
+        <a
+          href="https://unsplash.com/@abderrahmanemeftah?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          target="_none"
+        >
+          Abderrahmane Meftah
+        </a>{" "}
+        on{" "}
+        <a
+          href="https://unsplash.com/photos/white-clouds-and-blue-sky-during-daytime-K31pxnUmaRE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          target="_none"
+        >
+          Unsplash
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      </span>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
