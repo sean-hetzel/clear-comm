@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import kiwaImage from "../assets/airports/KIWA.png";
+import kiwaImage from "../../assets/airports/KIWA.png";
 import styles from "./Sim.module.css";
 
 export default function Sim() {
