@@ -17,7 +17,18 @@
      bleeding off-screen. */
   width: 100vw;
   height: auto;
-  max-height: 90vh;
+  max-height: calc(100vh - 56px);
   object-fit: contain;
   display: block;
+}
+
+.simHUD {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.homeButton {
+  position: absolute;
+  left: 0px;
 }
