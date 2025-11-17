@@ -6,7 +6,7 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background-image: url("../../assets/abderrahmane-meftah-K31pxnUmaRE-unsplash.jpg");
+  background-image: url("../../assets/cadu-de-castro-alves-A85EFURRFLU-unsplash.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -47,4 +47,16 @@
 
 .photoCredit a:hover {
   text-decoration: underline;
+}
+
+.clearCommContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.clearCommLogo {
+  width: 50px;
+  height: auto;
 }

@@ -2,6 +2,7 @@ import { Autocomplete, Button } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
+import clearCommLogo from "../../assets/airplane.svg";
 
 interface HomeProps {
   selectedScenario: string | null;
@@ -42,8 +43,14 @@ export default function Home(props: HomeProps) {
   return (
     <div className={styles.container}>
       <div className={styles.mainMenu}>
-        <h1>Clear Comm</h1>
-
+        <div className={styles.clearCommContainer}>
+          <h1>Clear Comm</h1>
+          <img
+            src={clearCommLogo}
+            className={styles.clearCommLogo}
+            alt="Clear Comm Logo"
+          />
+        </div>
         <Autocomplete
           placeholder="Select Scenario"
           options={options}
@@ -53,18 +60,19 @@ export default function Home(props: HomeProps) {
           onChange={(_, newValue) => setSelectedScenario(newValue)}
         />
         <Button onClick={handleStart}>Start</Button>
+        <Button variant="outlined">Test Microphone</Button>
       </div>
       <span className={styles.photoCredit}>
         Photo by{" "}
         <a
-          href="https://unsplash.com/@abderrahmanemeftah?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          href="https://unsplash.com/@castroalves?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
           target="_none"
         >
-          Abderrahmane Meftah
+          Cadu de Castro Alves
         </a>{" "}
         on{" "}
         <a
-          href="https://unsplash.com/photos/white-clouds-and-blue-sky-during-daytime-K31pxnUmaRE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          href="https://unsplash.com/photos/an-airplane-is-flying-in-the-blue-sky-A85EFURRFLU?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
           target="_none"
         >
           Unsplash
