@@ -59,6 +59,9 @@ export default function Home(props: HomeProps) {
           error={isError}
           onChange={(_, newValue) => setSelectedScenario(newValue)}
         />
+        {isError && (
+          <span className={styles.errorMessage}>Please select a scenario</span>
+        )}
         <Button onClick={handleStart}>Start</Button>
         <Button variant="outlined">Test Microphone</Button>
       </div>

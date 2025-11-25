@@ -32,3 +32,22 @@
   position: absolute;
   left: 0px;
 }
+
+.simArea {
+  position: relative; /* airplane absolute positions are relative to this */
+  width: 100vw;
+}
+
+.airportImage {
+  width: 100%;
+  height: auto;
+}
+
+.airplane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%); /* centers the airplane on the path */
+  transform-origin: center center; /* make rotations pivot around the center */
+  pointer-events: none; /* optional, prevents clicks on the airplane */
+}

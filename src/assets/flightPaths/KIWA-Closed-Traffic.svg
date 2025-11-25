@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1070.96 1087.67">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #ff9855;
+        stroke-miterlimit: 10;
+        stroke-width: 2.83px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <path id="_12R-Upwind" data-name="12R-Upwind" class="cls-1" d="M260.39,31.99l780.24,798.49"/>
+    <path id="_12R-Base" data-name="12R-Base" class="cls-1" d="M30.33,257.19c-39.18-40.1-38.44-104.37,1.66-143.56L116.38,31.17l.46-.85c40.1-39.18,104.37-38.44,143.56,1.66"/>
+    <path id="_12R-Downwind" data-name="12R-Downwind" class="cls-1" d="M810.56,1055.69L30.33,257.19"/>
+    <path id="_12R-Crosswind" data-name="12R-Crosswind" class="cls-1" d="M810.56,1055.69c39.18,40.1,103.46,40.84,143.56,1.66l84.39-82.46.46-.85c40.1-39.18,40.84-103.46,1.66-143.56"/>
+  </g>
+</svg>
