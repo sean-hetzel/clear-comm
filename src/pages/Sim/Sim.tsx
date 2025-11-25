@@ -7,8 +7,7 @@ import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic-Test.svg?rea
 import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
 import useVoiceCommand from "../../utils/useVoiceCommand";
 import { useSpeakText } from "../../utils/useSpeakText";
-
-const legIds = ["_12R-Upwind", "_12R-Crosswind", "_12R-Downwind", "_12R-Base"];
+import scenarios from "../../data/scenarios.json";
 
 export default function Sim() {
   const [searchParams] = useSearchParams();
@@ -20,13 +19,19 @@ export default function Sim() {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
 
+  // If scenarios.json has multiple scenarios, choose the one that matches the query param (if any),
+  // otherwise fall back to the first scenario. Use the `legs` ids as a flat array of strings.
+  const selectedScenarioObj =
+    scenarios.data?.find((s) => s.name === scenario) || scenarios.data?.[0];
+  const legIds = selectedScenarioObj?.legs?.map((l) => l.id) ?? [];
+  const currentReadback = selectedScenarioObj?.legs?.[legIndex]?.readback ?? "";
+
   // Hook listens for "Next" and triggers handleNext
   // Keep the handler stable to avoid recreating speech recognition on each render
   const handleNext = useCallback(() => {
+    // Allow advancing through all legs. legIndex values are: 0 (start) up to legIds.length
     setLegIndex((i) => (i < legIds.length ? i + 1 : i));
-    // Temp:
-    useSpeakText("Sue 7 18 cleared to land runway 1 2 right.");
-  }, []);
+  }, [legIds.length]);
 
   useEffect(() => {
     // This effect runs on mount and sets up something if needed
@@ -38,7 +43,7 @@ export default function Sim() {
     };
   }, []); // empty dependency → runs only on mount/unmount
 
-  useVoiceCommand(handleNext);
+  useVoiceCommand(handleNext, currentReadback);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -48,6 +53,13 @@ export default function Sim() {
 
     const airplaneEl = airplane as HTMLDivElement;
     const svgEl = svg as SVGSVGElement;
+
+    // Announce instruction for the current leg if it exists
+    const currentInstruction =
+      selectedScenarioObj?.legs?.[legIndex]?.instruction;
+    if (currentInstruction) {
+      useSpeakText(currentInstruction).catch((err) => console.error(err));
+    }
 
     // Determine which leg to animate
     if (legIndex === 0) {
@@ -94,6 +106,8 @@ export default function Sim() {
 
     const total = pathEl.getTotalLength();
     let progress = 0;
+    // Cancel any previous animation frame for safety
+    let rafId: number | null = null;
 
     function animate() {
       const point = pathEl.getPointAtLength(progress);
@@ -122,11 +136,20 @@ export default function Sim() {
       progress += 3;
 
       if (progress <= total) {
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
       }
     }
 
-    animate();
+    // cancel previous RAF if any then start
+    try {
+      if (rafId) cancelAnimationFrame(rafId);
+    } catch (e) {}
+    rafId = requestAnimationFrame(animate);
+
+    // cleanup: cancel animation on effect teardown
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [legIndex]);
 
   return (

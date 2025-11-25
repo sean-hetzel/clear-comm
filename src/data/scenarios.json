@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "KIWA 12R Closed Traffic",
+      "legs": [
+        {
+          "id": "_12R-Upwind",
+          "instruction": "Sue 7 18 make right closed traffic 1 2 right.",
+          "readback": "Right closed traffic 1/2 right 7/18."
+        },
+        {
+          "id": "_12R-Crosswind",
+          "instruction": "Sue 7 18 say hi",
+          "readback": "hi"
+        },
+        {
+          "id": "_12R-Downwind",
+          "instruction": "Sue 7 18 cleared to land runway 1 2 right.",
+          "readback": "Cleared to land runway 1 2 right Sue 7 18."
+        },
+        { "id": "_12R-Base", "instruction": "", "readback": "" }
+      ]
+    }
+  ]
+}

@@ -28,6 +28,12 @@
   border-radius: 1rem;
 }
 
+.githubLink {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+}
+
 .photoCredit {
   position: fixed;
   bottom: 1rem;

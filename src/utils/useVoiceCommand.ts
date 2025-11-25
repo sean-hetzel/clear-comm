@@ -1,6 +1,17 @@
 import { useEffect } from "react";
 
-export default function useVoiceCommand(onCommand: () => void) {
+function normalizeText(s: string) {
+  return s
+    .toLowerCase()
+    .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+export default function useVoiceCommand(
+  onCommand: () => void,
+  commands?: string | string[]
+) {
   useEffect(() => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
@@ -16,12 +27,46 @@ export default function useVoiceCommand(onCommand: () => void) {
     recognition.lang = "en-US";
     recognition.interimResults = false;
 
+    // Normalize commands if provided
+    let normalizedCommands: string[] | null = null;
+    if (commands) {
+      normalizedCommands = (
+        Array.isArray(commands) ? commands : [commands]
+      ).map((c) => normalizeText(c));
+    }
+
+    // If commands contains an empty string we should trigger onCommand immediately
+    if (normalizedCommands && normalizedCommands.includes("")) {
+      try {
+        onCommand();
+      } catch (err) {
+        console.error(err);
+      }
+      return; // no need to start listening
+    }
+
+    // If no commands were passed in, do not listen. This removes the old
+    // fallback behavior that treated "next" as a special case.
+    if (!normalizedCommands) {
+      return;
+    }
+
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript.trim().toLowerCase();
-        console.log("Heard command:", transcript);
-        if (transcript === "next." || transcript === "next") {
-          onCommand();
+        const rawTranscript = event.results[i][0].transcript.trim();
+        const transcript = normalizeText(rawTranscript);
+        console.log("Heard command:", rawTranscript);
+
+        // Only match commands that were explicitly provided.
+        for (const cmd of normalizedCommands) {
+          if (cmd && transcript === cmd) {
+            try {
+              onCommand();
+            } catch (err) {
+              console.error(err);
+            }
+            break;
+          }
         }
       }
     };
@@ -33,9 +78,13 @@ export default function useVoiceCommand(onCommand: () => void) {
     recognition.start();
 
     return () => {
-      recognition.stop();
+      try {
+        recognition.stop();
+      } catch (err) {
+        // ignore
+      }
       recognition.onresult = null;
       recognition.onerror = null;
     };
-  }, [onCommand]);
+  }, [onCommand, JSON.stringify(commands)]);
 }

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import clearCommLogo from "../../assets/airplane.svg";
+import GithubLogo from "../../assets/GithubLogo.png";
+import scenarios from "../../data/scenarios.json";
 
 interface HomeProps {
   selectedScenario: string | null;
@@ -12,13 +14,7 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const { selectedScenario, setSelectedScenario } = props;
 
-  const options = [
-    "IWA - Departure",
-    "IWA - Arrival",
-    "IWA - Closed Traffic",
-    "TUS - Departure",
-    "TUS - Arrival",
-  ];
+  const options = scenarios.data?.map((s) => s.name) || [];
 
   // Optionally store selected scenario
   const [isError, setIsError] = useState(false);
@@ -65,6 +61,11 @@ export default function Home(props: HomeProps) {
         <Button onClick={handleStart}>Start</Button>
         <Button variant="outlined">Test Microphone</Button>
       </div>
+      <span className={styles.githubLink}>
+        <a href="https://github.com/sean-hetzel/clear-comm" target="_none">
+          <img src={GithubLogo} width={40} />
+        </a>
+      </span>
       <span className={styles.photoCredit}>
         Photo by{" "}
         <a
