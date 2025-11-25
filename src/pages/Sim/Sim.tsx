@@ -43,7 +43,7 @@ export default function Sim() {
     };
   }, []); // empty dependency → runs only on mount/unmount
 
-  useVoiceCommand(handleNext, currentReadback);
+  useVoiceCommand(handleNext, currentReadback, { matchMode: 'tokens', threshold: 0.5 });
 
   useEffect(() => {
     const svg = svgRef.current;

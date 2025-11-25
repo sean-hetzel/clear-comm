@@ -7,7 +7,7 @@
         {
           "id": "_12R-Upwind",
           "instruction": "Sue 7 18 make right closed traffic 1 2 right.",
-          "readback": "Right closed traffic 1/2 right 7/18."
+          "readback": "Right closed traffic 1/2 right Sue 7/18."
         },
         {
           "id": "_12R-Crosswind",
@@ -17,7 +17,7 @@
         {
           "id": "_12R-Downwind",
           "instruction": "Sue 7 18 cleared to land runway 1 2 right.",
-          "readback": "Cleared to land runway 1 2 right Sue 7 18."
+          "readback": "Cleared to land runway 1/2 right Sue 7/18."
         },
         { "id": "_12R-Base", "instruction": "", "readback": "" }
       ]
