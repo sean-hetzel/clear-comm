@@ -20,7 +20,7 @@ export default function useVoiceCommand(onCommand: () => void) {
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript.trim().toLowerCase();
         console.log("Heard command:", transcript);
-        if (transcript === "next.") {
+        if (transcript === "next." || transcript === "next") {
           onCommand();
         }
       }

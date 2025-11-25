@@ -25,7 +25,7 @@ export default function Sim() {
   const handleNext = useCallback(() => {
     setLegIndex((i) => (i < legIds.length ? i + 1 : i));
     // Temp:
-    useSpeakText("Sue 718 cleared to land runway 1 2 right.");
+    useSpeakText("Sue 7 18 cleared to land runway 1 2 right.");
   }, []);
 
   useEffect(() => {
