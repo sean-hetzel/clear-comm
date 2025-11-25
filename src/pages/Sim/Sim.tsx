@@ -1,10 +1,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./Sim.module.css";
 import { Button, IconButton } from "@mui/joy";
 import HomeIcon from "@mui/icons-material/Home";
 import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic-Test.svg?react";
 import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
+import useVoiceCommand from "../../utils/useVoiceCommand";
+import { useSpeakText } from "../../utils/useSpeakText";
 
 const legIds = ["_12R-Upwind", "_12R-Crosswind", "_12R-Downwind", "_12R-Base"];
 
@@ -18,12 +20,25 @@ export default function Sim() {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
 
-  // Advance to next leg when user clicks button
-  const handleNext = () => {
-    if (legIndex < legIds.length) {
-      setLegIndex((i) => i + 1);
-    }
-  };
+  // Hook listens for "Next" and triggers handleNext
+  // Keep the handler stable to avoid recreating speech recognition on each render
+  const handleNext = useCallback(() => {
+    setLegIndex((i) => (i < legIds.length ? i + 1 : i));
+    // Temp:
+    useSpeakText("Sue 718 cleared to land runway 1 2 right.");
+  }, []);
+
+  useEffect(() => {
+    // This effect runs on mount and sets up something if needed
+    return () => {
+      // Cleanup on unmount
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []); // empty dependency → runs only on mount/unmount
+
+  useVoiceCommand(handleNext);
 
   useEffect(() => {
     const svg = svgRef.current;
