@@ -17,24 +17,40 @@
      bleeding off-screen. */
   width: 100vw;
   height: auto;
-  max-height: calc(100vh - 56px);
   object-fit: contain;
   display: block;
 }
 
 .simHUD {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  z-index: 5;
 }
 
 .homeButton {
-  position: absolute;
-  left: 0px;
+  position: static;
 }
 
 .simArea {
   position: relative; /* airplane absolute positions are relative to this */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 100vw;
 }
 

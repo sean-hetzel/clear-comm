@@ -8,16 +8,18 @@ function normalizeText(s: string) {
     .trim();
 }
 
-export type VoiceMatchMode = 'equals' | 'includes' | 'tokens';
+export type VoiceMatchMode = "equals" | "includes" | "tokens";
 export interface UseVoiceOptions {
   matchMode?: VoiceMatchMode;
   threshold?: number; // 0..1 for tokens match
+  onTranscript?: (transcript: string, raw: string) => void;
+  onMatch?: (transcript: string, raw: string, matchedCommand: string) => void;
 }
 
 export default function useVoiceCommand(
   onCommand: () => void,
   commands?: string | string[],
-  options?: UseVoiceOptions,
+  options?: UseVoiceOptions
 ) {
   useEffect(() => {
     const SpeechRecognition =
@@ -34,7 +36,12 @@ export default function useVoiceCommand(
     recognition.lang = "en-US";
     recognition.interimResults = false;
 
-    const { matchMode = 'equals', threshold = 0.5 } = options ?? {};
+    const {
+      matchMode = "equals",
+      threshold = 0.5,
+      onTranscript,
+      onMatch,
+    } = options ?? {};
 
     // Normalize commands if provided
     let normalizedCommands: string[] | null = null;
@@ -61,9 +68,9 @@ export default function useVoiceCommand(
     }
 
     function tokenMatch(transcript: string, cmd: string, threshold: number) {
-      const tTokens = transcript.split(' ').filter(Boolean);
-      const cTokens = cmd.split(' ').filter(Boolean);
-      if (cTokens.length === 0) return transcript === '';
+      const tTokens = transcript.split(" ").filter(Boolean);
+      const cTokens = cmd.split(" ").filter(Boolean);
+      if (cTokens.length === 0) return transcript === "";
       let matches = 0;
       const cSet = new Set(cTokens);
       for (const t of tTokens) if (cSet.has(t)) matches++;
@@ -76,20 +83,55 @@ export default function useVoiceCommand(
         const rawTranscript = event.results[i][0].transcript.trim();
         const transcript = normalizeText(rawTranscript);
         console.log("Heard command:", rawTranscript);
+        try {
+          onTranscript?.(transcript, rawTranscript);
+        } catch (e) {
+          console.error(e);
+        }
 
         // Only match commands that were explicitly provided.
         for (const cmd of normalizedCommands) {
           if (!cmd) continue;
-          if (matchMode === 'equals' && transcript === cmd) {
-            try { onCommand(); } catch (err) { console.error(err); }
+          if (matchMode === "equals" && transcript === cmd) {
+            try {
+              onMatch?.(transcript, rawTranscript, cmd);
+            } catch (err) {
+              console.error(err);
+            }
+            try {
+              onCommand();
+            } catch (err) {
+              console.error(err);
+            }
             break;
           }
-          if (matchMode === 'includes' && transcript.includes(cmd)) {
-            try { onCommand(); } catch (err) { console.error(err); }
+          if (matchMode === "includes" && transcript.includes(cmd)) {
+            try {
+              onMatch?.(transcript, rawTranscript, cmd);
+            } catch (err) {
+              console.error(err);
+            }
+            try {
+              onCommand();
+            } catch (err) {
+              console.error(err);
+            }
             break;
           }
-          if (matchMode === 'tokens' && tokenMatch(transcript, cmd, threshold)) {
-            try { onCommand(); } catch (err) { console.error(err); }
+          if (
+            matchMode === "tokens" &&
+            tokenMatch(transcript, cmd, threshold)
+          ) {
+            try {
+              onMatch?.(transcript, rawTranscript, cmd);
+            } catch (err) {
+              console.error(err);
+            }
+            try {
+              onCommand();
+            } catch (err) {
+              console.error(err);
+            }
             break;
           }
         }

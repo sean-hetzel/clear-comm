@@ -8,6 +8,8 @@ import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
 import useVoiceCommand from "../../utils/useVoiceCommand";
 import { useSpeakText } from "../../utils/useSpeakText";
 import scenarios from "../../data/scenarios.json";
+import Chat from "../../components/Chat/Chat";
+import type { ChatEntry } from "../../components/Chat/Chat";
 
 export default function Sim() {
   const [searchParams] = useSearchParams();
@@ -15,6 +17,7 @@ export default function Sim() {
   const navigate = useNavigate();
 
   const [legIndex, setLegIndex] = useState(0); // which leg the user is on
+  const [chatHistory, setChatHistory] = useState<ChatEntry[]>([]);
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +46,14 @@ export default function Sim() {
     };
   }, []); // empty dependency → runs only on mount/unmount
 
-  useVoiceCommand(handleNext, currentReadback, { matchMode: 'tokens', threshold: 0.5 });
+  useVoiceCommand(handleNext, currentReadback, {
+    matchMode: "tokens",
+    threshold: 0.5,
+    onMatch: (_t, raw) => {
+      // Append the user's readback (what was heard) to the chat
+      setChatHistory((prev) => [...prev, { sender: "User", message: raw }]);
+    },
+  });
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -59,6 +69,10 @@ export default function Sim() {
       selectedScenarioObj?.legs?.[legIndex]?.instruction;
     if (currentInstruction) {
       useSpeakText(currentInstruction).catch((err) => console.error(err));
+      setChatHistory((prev) => [
+        ...prev,
+        { sender: "ATC", message: currentInstruction },
+      ]);
     }
 
     // Determine which leg to animate
@@ -171,14 +185,18 @@ export default function Sim() {
       </div>
 
       <div className={styles.simArea}>
-        {/* SVG flight path */}
-        <KIWAImage ref={svgRef} className={styles.airportImage} />
+        <div className={styles.stage}>
+          {/* SVG flight path */}
+          <KIWAImage ref={svgRef} className={styles.airportImage} />
 
-        {/* Airplane marker */}
-        <div ref={airplaneRef} className={styles.airplane}>
-          <AirplaneIcon width={50} height={50} />
+          {/* Airplane marker */}
+          <div ref={airplaneRef} className={styles.airplane}>
+            <AirplaneIcon width={50} height={50} />
+          </div>
         </div>
       </div>
+      {/* Chat overlay */}
+      <Chat history={chatHistory} />
     </div>
   );
 }
