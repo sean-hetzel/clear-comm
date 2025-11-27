@@ -1,0 +1,21 @@
+.simHUD {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  z-index: 5;
+}
+
+.homeButton {
+  position: static;
+}
+
+.infoTitle {
+  color: #7ecfff;
+}

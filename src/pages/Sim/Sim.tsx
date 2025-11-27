@@ -1,8 +1,6 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./Sim.module.css";
-import { Button, IconButton } from "@mui/joy";
-import HomeIcon from "@mui/icons-material/Home";
 import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic-Test.svg?react";
 import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
 import useVoiceCommand from "../../utils/useVoiceCommand";
@@ -10,12 +8,11 @@ import { useSpeakText } from "../../utils/useSpeakText";
 import scenarios from "../../data/scenarios.json";
 import Chat from "../../components/Chat/Chat";
 import type { ChatEntry } from "../../components/Chat/Chat";
+import Header from "../../components/Header/Header";
 
 export default function Sim() {
   const [searchParams] = useSearchParams();
   const scenario = searchParams.get("scenario");
-  const navigate = useNavigate();
-
   const [legIndex, setLegIndex] = useState(0); // which leg the user is on
   const [chatHistory, setChatHistory] = useState<ChatEntry[]>([]);
 
@@ -168,27 +165,16 @@ export default function Sim() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.simHUD}>
-        <IconButton
-          onClick={() => navigate("/")}
-          className={styles.homeButton}
-          variant="plain"
-          color="primary"
-        >
-          <HomeIcon />
-        </IconButton>
-
-        <Button onClick={handleNext}>Next</Button>
-
-        <p>Selected Scenario: {scenario}</p>
-        <p>Current Leg: {legIds[legIndex - 1] || "None yet"}</p>
-      </div>
-
+      <Header
+        scenario={scenario}
+        legIds={legIds}
+        legIndex={legIndex}
+        handleNext={handleNext}
+      />
       <div className={styles.simArea}>
         <div className={styles.stage}>
           {/* SVG flight path */}
           <KIWAImage ref={svgRef} className={styles.airportImage} />
-
           {/* Airplane marker */}
           <div ref={airplaneRef} className={styles.airplane}>
             <AirplaneIcon width={50} height={50} />
