@@ -40,7 +40,7 @@ export default function Home(props: HomeProps) {
     <div className={styles.container}>
       <div className={styles.mainMenu}>
         <div className={styles.clearCommContainer}>
-          <h1>Clear Comm</h1>
+          <h1 className={styles.majorMonoDisplayRegular}>Clear Comm</h1>
           <img
             src={clearCommLogo}
             className={styles.clearCommLogo}

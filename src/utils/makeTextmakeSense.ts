@@ -11,5 +11,11 @@ export function makeTextMakeSense(text: string): string {
   // Remove space between any two numbers (handles remaining cases)
   result = result.replace(/(\d)\s+(\d)/g, "$1$2");
 
+  // Remove underscores
+  result = result.replace(/_/g, "");
+
+  // Replace hyphens with spaces
+  result = result.replace(/-/g, " ");
+
   return result;
 }
