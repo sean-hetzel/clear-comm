@@ -1,6 +1,6 @@
 .chatBox {
   position: fixed;
-  left: 0.5rem;
+  right: 0.5rem;
   bottom: 0.5rem;
   width: 320px;
   max-width: calc(100vw - 2rem);

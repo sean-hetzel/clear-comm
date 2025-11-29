@@ -192,7 +192,7 @@ export default function Sim() {
           <KIWAImage ref={svgRef} className={styles.airportImage} />
           {/* Airplane marker */}
           <div ref={airplaneRef} className={styles.airplane}>
-            <AirplaneIcon width={50} height={50} />
+            <AirplaneIcon width={40} height={40} />
           </div>
         </div>
       </div>
