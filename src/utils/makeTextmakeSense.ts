@@ -22,7 +22,10 @@ export function makeTextMakeSense(text: string): string {
   // Remove underscores
   result = result.replace(/_/g, "");
 
-  // Replace hyphens with spaces
+  // Remove hyphen followed by number at the end (e.g., "runway-1" -> "runway")
+  result = result.replace(/-\d+$/g, "");
+
+  // Replace remaining hyphens with spaces
   result = result.replace(/-/g, " ");
 
   return result;

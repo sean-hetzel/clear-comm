@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./Sim.module.css";
-import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic-Test.svg?react";
+import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic.svg?react";
 import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
 import useVoiceCommand from "../../utils/useVoiceCommand";
 import { useSpeakText } from "../../utils/useSpeakText";
@@ -18,6 +18,8 @@ export default function Sim() {
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
+  const announcedLegRef = useRef<number | null>(null);
+  const chatAddedRef = useRef<Set<number>>(new Set());
 
   // If scenarios.json has multiple scenarios, choose the one that matches the query param (if any),
   // otherwise fall back to the first scenario. Use the `legs` ids as a flat array of strings.
@@ -48,9 +50,33 @@ export default function Sim() {
     threshold: 0.5,
     onMatch: (_t, raw) => {
       // Append the user's readback (what was heard) to the chat
-      setChatHistory((prev) => [...prev, { sender: "User", message: raw }]);
+      setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
     },
   });
+
+  // Separate effect for announcing instructions (runs when legIndex changes)
+  useEffect(() => {
+    const currentInstruction =
+      selectedScenarioObj?.legs?.[legIndex]?.instruction;
+    if (currentInstruction && announcedLegRef.current !== legIndex) {
+      announcedLegRef.current = legIndex;
+      useSpeakText(currentInstruction).catch((err) => console.error(err));
+
+      // Only add to chat if we haven't added this leg before
+      if (!chatAddedRef.current.has(legIndex)) {
+        chatAddedRef.current.add(legIndex);
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "ATC", message: currentInstruction },
+        ]);
+      }
+    }
+
+    return () => {
+      // Reset ref on cleanup so effect can run properly after Strict Mode remount
+      announcedLegRef.current = null;
+    };
+  }, [legIndex, selectedScenarioObj]);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -60,17 +86,6 @@ export default function Sim() {
 
     const airplaneEl = airplane as HTMLDivElement;
     const svgEl = svg as SVGSVGElement;
-
-    // Announce instruction for the current leg if it exists
-    const currentInstruction =
-      selectedScenarioObj?.legs?.[legIndex]?.instruction;
-    if (currentInstruction) {
-      useSpeakText(currentInstruction).catch((err) => console.error(err));
-      setChatHistory((prev) => [
-        ...prev,
-        { sender: "ATC", message: currentInstruction },
-      ]);
-    }
 
     // Determine which leg to animate
     if (legIndex === 0) {

@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 import { makeTextMakeSense } from "../../utils/makeTextmakeSense";
 
 export type ChatEntry = {
-  sender: "ATC" | "User";
+  sender: "ATC" | "You";
   message: string;
 };
 

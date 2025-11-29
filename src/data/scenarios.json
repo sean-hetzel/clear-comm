@@ -2,24 +2,87 @@
   "data": [
     {
       "id": "1",
-      "name": "KIWA 12R Closed Traffic",
+      "name": "KIWA Closed Traffic",
       "legs": [
         {
-          "id": "_12R-Upwind",
-          "instruction": "Sue 7 18 make right closed traffic 1 2 right.",
-          "readback": "Right closed traffic 1/2 right Sue 7/18."
+          "id": "_12C-Upwind-1",
+          "instruction": "Sue 7 18 left closed traffic approved, cleared for takeoff runway 1 2 center.",
+          "readback": "Cleared for takeoff 1/2 center Sue 7/18."
         },
         {
-          "id": "_12R-Crosswind",
-          "instruction": "Sue 7 18 say hi",
-          "readback": "hi"
+          "id": "_12C-Upwind-2",
+          "instruction": "",
+          "readback": ""
+        },
+        { "id": "_12C-Crosswind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Downwind-1", "instruction": "", "readback": "" },
+        {
+          "id": "_12L-Downwind-2",
+          "instruction": "Sue 7 18 cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go 1/2 left Sue 7/18."
+        },
+        { "id": "_12L-Base-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Base-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Final", "instruction": "", "readback": "" },
+        { "id": "_12L-Upwind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Upwind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Downwind-1", "instruction": "", "readback": "" },
+        {
+          "id": "_12L-Downwind-2",
+          "instruction": "Sue 7 18 traffic is a company Archer on final 1 2 left. Follow the traffic cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go 1/2 left number 2 Sue 7/18."
+        },
+        { "id": "_12L-Base-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Base-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Final", "instruction": "", "readback": "" },
+        { "id": "_12L-Upwind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Upwind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Downwind-1", "instruction": "", "readback": "" },
+        {
+          "id": "_12L-Downwind-2",
+          "instruction": "Sue 7 18 extend downwind, I'll call your base.",
+          "readback": "Extend downwind Sue 7/18."
         },
         {
-          "id": "_12R-Downwind",
-          "instruction": "Sue 7 18 cleared to land runway 1 2 right.",
-          "readback": "Cleared to land runway 1/2 right Sue 7/18."
+          "id": "_12L-Downwind-Extended",
+          "instruction": "",
+          "readback": ""
         },
-        { "id": "_12R-Base", "instruction": "", "readback": "" }
+        {
+          "id": "_12L-Base-Extended",
+          "instruction": "Sue 7 18 begin base, traffic just departed 1 2 center is an airbus, caution wake turbulance. Cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go 1/2 left Sue 7/18."
+        },
+        { "id": "_12L-Final-Extended", "instruction": "", "readback": "" },
+        { "id": "_12L-Final", "instruction": "", "readback": "" },
+        { "id": "_12L-Upwind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Upwind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-1", "instruction": "", "readback": "" },
+        { "id": "_12L-Crosswind-2", "instruction": "", "readback": "" },
+        { "id": "_12L-Downwind-1", "instruction": "", "readback": "" },
+        {
+          "id": "_12L-Downwind-2",
+          "instruction": "Sue 7 18 change runway 1 2 center, cleared to land runway 1 2 center.",
+          "readback": "Cleared to land runway 1 2 center Sue 7/18."
+        },
+        { "id": "_12L-Base-1", "instruction": "", "readback": "" },
+        { "id": "_12C-Base", "instruction": "", "readback": "" },
+        { "id": "_12C-Final", "instruction": "", "readback": "" },
+        {
+          "id": "K-HOLD-SHORT-12R",
+          "instruction": "Sue 7 18 turn right on kilo, hold short runway 1 2 right.",
+          "readback": "Hold short runway 1/2 right Sue 7/18."
+        },
+        {
+          "id": "K-Crossing-12R",
+          "instruction": "Sue 7 18 cross 1 2 right at kilo contact ground.",
+          "readback": "Cross runway 1/2 right at kilo contact ground Sue 7/18."
+        }
       ]
     }
   ]
