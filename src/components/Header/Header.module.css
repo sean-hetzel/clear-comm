@@ -6,7 +6,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.5rem 0.75rem;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(16, 28, 51, 0.6);
   backdrop-filter: blur(4px);
   border-radius: 8px;
   z-index: 5;

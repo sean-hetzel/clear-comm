@@ -66,7 +66,7 @@ export default function Home(props: HomeProps) {
           <img src={GithubLogo} width={40} />
         </a>
       </span>
-      <span className={styles.photoCredit}>
+      <span className={`${styles.infoBox} ${styles.photoCredit}`}>
         Photo by{" "}
         <a
           href="https://unsplash.com/@castroalves?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
@@ -80,6 +80,15 @@ export default function Home(props: HomeProps) {
           target="_none"
         >
           Unsplash
+        </a>
+      </span>
+      <span className={`${styles.infoBox} ${styles.aim}`}>
+        <a
+          href="https://www.faa.gov/air_traffic/publications/atpubs/aim_html/chap4_section_2.html"
+          target="_none"
+        >
+          AIM Chapter 4 Section 2 Radio Communications Phraseology and
+          Techniques
         </a>
       </span>
     </div>

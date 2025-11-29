@@ -5,7 +5,7 @@
   width: 320px;
   max-width: calc(100vw - 2rem);
   max-height: 40vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(16, 28, 51, 0.6);
   border-radius: 8px;
   color: #fff;
   z-index: 200;

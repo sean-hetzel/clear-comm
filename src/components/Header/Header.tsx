@@ -19,7 +19,8 @@ export default function Header(props: HeaderProps) {
       <Button
         onClick={() => navigate("/")}
         className={styles.homeButton}
-        color="primary"
+        color="neutral"
+        variant="soft"
       >
         Home
       </Button>
