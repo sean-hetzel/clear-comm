@@ -98,9 +98,15 @@ export default function Sim() {
       selectedScenarioObj?.legs?.[legIndex]?.instruction;
     const currentSender =
       selectedScenarioObj?.legs?.[legIndex]?.sender ?? "ATC";
+
+    // Announce if we haven't announced this leg yet
     if (currentInstruction && announcedLegRef.current !== legIndex) {
       announcedLegRef.current = legIndex;
-      useSpeakText(currentInstruction).catch((err) => console.error(err));
+
+      // Small delay to ensure speech synthesis is ready when navigating from homepage
+      setTimeout(() => {
+        useSpeakText(currentInstruction).catch((err) => console.error(err));
+      }, 100);
 
       // Only add to chat if we haven't added this leg before
       if (!chatAddedRef.current.has(legIndex)) {
@@ -111,11 +117,6 @@ export default function Sim() {
         ]);
       }
     }
-
-    return () => {
-      // Reset ref on cleanup so effect can run properly after Strict Mode remount
-      announcedLegRef.current = null;
-    };
   }, [legIndex, selectedScenarioObj]);
 
   useEffect(() => {
@@ -240,8 +241,8 @@ export default function Sim() {
           {/* Airplane marker */}
           <div ref={airplaneRef} className={styles.airplane}>
             <AirplaneIcon
-              width={isMobile() ? 20 : 40}
-              height={isMobile() ? 20 : 40}
+              width={isMobile() ? 20 : 30}
+              height={isMobile() ? 20 : 30}
             />
           </div>
         </div>

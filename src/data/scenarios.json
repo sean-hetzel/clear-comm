@@ -5,9 +5,45 @@
       "name": "KIWA Closed Traffic",
       "legs": [
         {
-          "id": "_12C-Upwind-1",
+          "id": "Ramp-Y",
+          "instruction": "Sue 7 18 taxi runway 1 2 center via yankee echo hold short of golf in the hold bay.",
+          "readback": "1 2 center via yankee echo hold short of golf in the hold bay Su 7 18.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-E",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "E-Runup",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Runup-HOLD-SHORT-12R",
+          "instruction": "Sue 7 18 contact tower.",
+          "readback": "Contact tower Su 7 18.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "E-HOLD-SHORT-12C",
+          "instruction": "Sue 7 18 taxi via golf cross runway 1 2 right at golf hold short runway 1 2 center.",
+          "readback": "Cross 12 right at golf hold short runway 1 2 center Su 7 18.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "E-Line-Up-12C",
           "instruction": "Sue 7 18 left closed traffic approved, cleared for takeoff runway 1 2 center.",
           "readback": "Cleared for takeoff runway 1 2 center Su 7 18.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12C-Upwind-1",
+          "instruction": "",
+          "readback": "",
           "sender": "Gateway Tower"
         },
         {
@@ -18,7 +54,7 @@
         },
         {
           "id": "_12C-Crosswind-1",
-          "instruction": "Career Track cleared for takeoff runway 1 2 right.",
+          "instruction": "Career Track 6 41 cleared for takeoff runway 1 2 right.",
           "readback": "",
           "sender": "Gateway Tower"
         },
@@ -90,7 +126,7 @@
         },
         {
           "id": "_12L-Downwind-2",
-          "instruction": "Sue 7 18 traffic is a company Archer on final 1 2 left. Follow the traffic cleared stop and go runway 1 2 left.",
+          "instruction": "Sue 7 18 traffic is a company Archer on final 1 2 center. Follow the traffic cleared stop and go runway 1 2 left.",
           "readback": "Cleared stop and go runway 1 2 left number 2 Su 7 18.",
           "sender": "Gateway Tower"
         },
@@ -114,7 +150,7 @@
         },
         {
           "id": "_12L-Upwind-1",
-          "instruction": "Allegiant 64 cleared for takeoff runway 1 2 center.",
+          "instruction": "Allegiant 15 86 cleared for takeoff runway 1 2 center.",
           "readback": "",
           "sender": "Gateway Tower"
         },
@@ -237,6 +273,36 @@
           "instruction": "Sue 7 18 cross 1 2 right at kilo contact ground.",
           "readback": "Cross runway 1 2 right at kilo contact ground Su 7 18.",
           "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Sue 7 18 taxi yankee ramp via bravo yankee 1 yankee.",
+          "readback": "Yankee ramp via bravo yankee 1 yankee Su 7 18.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "B-Y1",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y1-Y",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-Y2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y2-Ramp",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
         }
       ]
     }

@@ -59,33 +59,28 @@ export function useSpeakText(text: string, opts?: SpeakOptions): Promise<void> {
       };
 
       // For iOS, voices may not be loaded immediately
+      // Use a flag to ensure we only speak once
+      let hasSpoken = false;
+
+      const safeSelectVoiceAndSpeak = () => {
+        if (!hasSpoken) {
+          hasSpoken = true;
+          selectVoiceAndSpeak();
+        }
+      };
+
       const voices = synth.getVoices();
       if (voices.length > 0) {
         // Voices already loaded, speak immediately
-        selectVoiceAndSpeak();
+        safeSelectVoiceAndSpeak();
       } else {
         // Wait for voices to load (important for iOS/Safari)
-        // Use a flag to ensure we only speak once
-        let hasSpoken = false;
-
-        const voiceLoadHandler = () => {
-          if (!hasSpoken) {
-            hasSpoken = true;
-            selectVoiceAndSpeak();
-          }
-        };
-
-        synth.addEventListener("voiceschanged", voiceLoadHandler, {
+        synth.addEventListener("voiceschanged", safeSelectVoiceAndSpeak, {
           once: true,
         });
 
         // Fallback timeout in case voiceschanged never fires
-        setTimeout(() => {
-          if (!hasSpoken) {
-            hasSpoken = true;
-            selectVoiceAndSpeak();
-          }
-        }, 100);
+        setTimeout(safeSelectVoiceAndSpeak, 100);
       }
     } catch (err) {
       reject(err);
