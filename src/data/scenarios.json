@@ -6,6 +6,12 @@
       "legs": [
         {
           "id": "Ramp-Y",
+          "instruction": "Ask Ground for closed traffic. You are at the Yankee ramp and have information Charlie.",
+          "readback": "Gateway Ground, Sue 7 18 at the yankee ramp with information Charlie, request closed traffic.",
+          "sender": "Hint"
+        },
+        {
+          "id": "Ramp-Y",
           "instruction": "Sue 7 18 taxi runway 1 2 center via yankee echo hold short of golf in the hold bay.",
           "readback": "1 2 center via yankee echo hold short of golf in the hold bay Su 7 18.",
           "sender": "Gateway Ground"
@@ -234,9 +240,9 @@
         },
         {
           "id": "_12L-Downwind-1",
-          "instruction": "",
-          "readback": "",
-          "sender": "Gateway Tower"
+          "instruction": "Ask for a full stop landing.",
+          "readback": "Gateway Tower requesting full stop landing Sue 7 18.",
+          "sender": "Hint"
         },
         {
           "id": "_12L-Downwind-2",
@@ -273,6 +279,12 @@
           "instruction": "Sue 7 18 cross 1 2 right at kilo contact ground.",
           "readback": "Cross runway 1 2 right at kilo contact ground Su 7 18.",
           "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Ask Gateway Ground for taxi to the yankee ramp.",
+          "readback": "Gateway Ground Su 7 18 clear of 1 2 right at kilo request taxi to yankee ramp.",
+          "sender": "Hint"
         },
         {
           "id": "K-B",

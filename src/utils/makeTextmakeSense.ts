@@ -28,5 +28,18 @@ export function makeTextMakeSense(text: string): string {
   // Replace remaining hyphens with spaces
   result = result.replace(/-/g, " ");
 
+  // Capitalize phonetic alphabet words
+  const phoneticWords = [
+    "alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel",
+    "india", "juliet", "kilo", "lima", "mike", "november", "oscar", "papa",
+    "quebec", "romeo", "sierra", "tango", "uniform", "victor", "whiskey",
+    "xray", "yankee", "zulu"
+  ];
+  
+  phoneticWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    result = result.replace(regex, word.charAt(0).toUpperCase() + word.slice(1));
+  });
+
   return result;
 }

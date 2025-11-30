@@ -49,7 +49,11 @@ export default function Chat({
               <div key={idx} className={styles.line}>
                 <strong
                   className={`${styles.role} ${
-                    entry.sender === "You" ? styles.user : styles.atc
+                    entry.sender === "You" 
+                      ? styles.user 
+                      : entry.sender === "Hint"
+                      ? styles.hint
+                      : styles.atc
                   }`}
                 >
                   {entry.sender}:

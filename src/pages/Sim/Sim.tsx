@@ -75,19 +75,37 @@ export default function Sim() {
         selectedScenarioObj?.legs?.[legIndex]?.instruction;
       const currentSender =
         selectedScenarioObj?.legs?.[legIndex]?.sender ?? "ATC";
+      
       if (currentInstruction) {
-        // Add "negative" after callsign pattern (e.g., "Sue 7 18" -> "Sue 7 18, negative")
-        // Match "Sue" followed by digits/spaces pattern
-        const modifiedInstruction = currentInstruction.replace(
-          /(Sue(?:\s+\d+)+)/i,
-          "$1, negative,"
-        );
-        useSpeakText(modifiedInstruction).catch((err) => console.error(err));
-        // Add to chat history
-        setChatHistory((prev) => [
-          ...prev,
-          { sender: currentSender, message: modifiedInstruction },
-        ]);
+        // Special handling for Hint - determine sender based on readback content
+        if (currentSender === "Hint") {
+          // Check if readback contains "Ground" or "Tower" to determine who responds
+          const respondingSender = currentReadback.toLowerCase().includes("ground")
+            ? "Gateway Ground"
+            : currentReadback.toLowerCase().includes("tower")
+            ? "Gateway Tower"
+            : "Gateway Ground"; // Default to Ground if neither found
+          
+          const sayAgainMessage = "Aircraft calling, say again.";
+          useSpeakText(sayAgainMessage).catch((err) => console.error(err));
+          setChatHistory((prev) => [
+            ...prev,
+            { sender: respondingSender, message: sayAgainMessage },
+          ]);
+        } else {
+          // Add "negative" after callsign pattern (e.g., "Sue 7 18" -> "Sue 7 18, negative")
+          // Match "Sue" followed by digits/spaces pattern
+          const modifiedInstruction = currentInstruction.replace(
+            /(Sue(?:\s+\d+)+)/i,
+            "$1, negative,"
+          );
+          useSpeakText(modifiedInstruction).catch((err) => console.error(err));
+          // Add to chat history
+          setChatHistory((prev) => [
+            ...prev,
+            { sender: currentSender, message: modifiedInstruction },
+          ]);
+        }
       }
     },
   });
@@ -103,10 +121,13 @@ export default function Sim() {
     if (currentInstruction && announcedLegRef.current !== legIndex) {
       announcedLegRef.current = legIndex;
 
-      // Small delay to ensure speech synthesis is ready when navigating from homepage
-      setTimeout(() => {
-        useSpeakText(currentInstruction).catch((err) => console.error(err));
-      }, 100);
+      // Only speak if not a Hint (hints are silent)
+      if (currentSender !== "Hint") {
+        // Small delay to ensure speech synthesis is ready when navigating from homepage
+        setTimeout(() => {
+          useSpeakText(currentInstruction).catch((err) => console.error(err));
+        }, 100);
+      }
 
       // Only add to chat if we haven't added this leg before
       if (!chatAddedRef.current.has(legIndex)) {
