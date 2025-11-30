@@ -5,6 +5,7 @@ import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic.svg?react";
 import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
 import useVoiceCommand from "../../utils/useVoiceCommand";
 import { useSpeakText } from "../../utils/useSpeakText";
+import { isMobile } from "../../utils/isMobile";
 import scenarios from "../../data/scenarios.json";
 import Chat from "../../components/Chat/Chat";
 import type { ChatEntry } from "../../components/Chat/Chat";
@@ -238,7 +239,10 @@ export default function Sim() {
           <KIWAImage ref={svgRef} className={styles.airportImage} />
           {/* Airplane marker */}
           <div ref={airplaneRef} className={styles.airplane}>
-            <AirplaneIcon width={40} height={40} />
+            <AirplaneIcon
+              width={isMobile() ? 20 : 40}
+              height={isMobile() ? 20 : 40}
+            />
           </div>
         </div>
       </div>

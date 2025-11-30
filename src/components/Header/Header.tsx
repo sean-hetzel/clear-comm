@@ -17,7 +17,7 @@ export default function Header(props: HeaderProps) {
     scenario,
     legIds = [],
     legIndex = 0,
-    // handleNext,
+    handleNext,
     isCompleted = false,
     onShowStats,
   } = props;
@@ -33,9 +33,9 @@ export default function Header(props: HeaderProps) {
       >
         Home
       </Button>
-      {/* <Button onClick={handleNext} variant="outlined">
+      <Button onClick={handleNext} variant="outlined">
         Next
-      </Button> */}
+      </Button>
       {isCompleted && onShowStats && (
         <Button onClick={onShowStats} variant="outlined" color="neutral">
           Stats

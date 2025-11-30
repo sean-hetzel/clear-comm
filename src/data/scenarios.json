@@ -18,7 +18,7 @@
         },
         {
           "id": "_12C-Crosswind-1",
-          "instruction": "",
+          "instruction": "Career Track cleared for takeoff runway 1 2 right.",
           "readback": "",
           "sender": "KIWA Tower"
         },
@@ -60,7 +60,7 @@
         },
         {
           "id": "_12L-Upwind-1",
-          "instruction": "",
+          "instruction": "Sue 6 46 cleare touch and go runway 1 2 center.",
           "readback": "",
           "sender": "KIWA Tower"
         },
@@ -114,7 +114,7 @@
         },
         {
           "id": "_12L-Upwind-1",
-          "instruction": "",
+          "instruction": "Allegiant 64 cleared for takeoff runway 1 2 center.",
           "readback": "",
           "sender": "KIWA Tower"
         },
