@@ -38,12 +38,20 @@ export function useSpeakText(text: string, opts?: SpeakOptions): Promise<void> {
         if (enVoice) utter.voice = enVoice;
       }
 
-      utter.onend = () => resolve();
-      utter.onerror = (e) => reject(e);
+      utter.onend = () => {
+        window.dispatchEvent(new CustomEvent("speechEnd"));
+        resolve();
+      };
+      utter.onerror = (e) => {
+        window.dispatchEvent(new CustomEvent("speechEnd"));
+        reject(e);
+      };
 
       try {
+        window.dispatchEvent(new CustomEvent("speechStart"));
         synth.speak(utter);
       } catch (e) {
+        window.dispatchEvent(new CustomEvent("speechEnd"));
         reject(e);
       }
     } catch (err) {

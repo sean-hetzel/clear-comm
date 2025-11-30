@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function normalizeText(s: string) {
   return s
@@ -22,6 +22,9 @@ export default function useVoiceCommand(
   commands?: string | string[],
   options?: UseVoiceOptions
 ) {
+  const recognitionRef = useRef<any>(null);
+  const isActiveRef = useRef(false);
+
   useEffect(() => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
@@ -33,6 +36,7 @@ export default function useVoiceCommand(
     }
 
     const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
     recognition.continuous = true; // keep listening
     recognition.lang = "en-US";
     recognition.interimResults = false;
@@ -160,19 +164,19 @@ export default function useVoiceCommand(
       }
     };
 
-    let isActive = true;
+    isActiveRef.current = true;
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error("Speech recognition error:", event.error);
       // Restart on certain errors (but not on abort which happens during cleanup)
       if (
-        isActive &&
+        isActiveRef.current &&
         event.error !== "aborted" &&
         event.error !== "not-allowed"
       ) {
         console.log("Restarting speech recognition after error...");
         setTimeout(() => {
-          if (isActive) {
+          if (isActiveRef.current) {
             try {
               recognition.start();
             } catch (e) {
@@ -185,10 +189,10 @@ export default function useVoiceCommand(
 
     recognition.onend = () => {
       // Auto-restart when recognition stops (e.g., from timeout)
-      if (isActive) {
+      if (isActiveRef.current) {
         console.log("Speech recognition ended, restarting...");
         setTimeout(() => {
-          if (isActive) {
+          if (isActiveRef.current) {
             try {
               recognition.start();
             } catch (e) {
@@ -199,10 +203,36 @@ export default function useVoiceCommand(
       }
     };
 
+    // Handle speech synthesis events
+    const handleSpeechStart = () => {
+      console.log("Speech started, stopping recognition...");
+      try {
+        recognition.stop();
+      } catch (err) {
+        console.error("Error stopping recognition:", err);
+      }
+    };
+
+    const handleSpeechEnd = () => {
+      console.log("Speech ended, restarting recognition...");
+      if (isActiveRef.current) {
+        try {
+          recognition.start();
+        } catch (err) {
+          console.error("Error restarting recognition:", err);
+        }
+      }
+    };
+
+    window.addEventListener("speechStart", handleSpeechStart);
+    window.addEventListener("speechEnd", handleSpeechEnd);
+
     recognition.start();
 
     return () => {
-      isActive = false;
+      isActiveRef.current = false;
+      window.removeEventListener("speechStart", handleSpeechStart);
+      window.removeEventListener("speechEnd", handleSpeechEnd);
       try {
         recognition.stop();
       } catch (err) {
