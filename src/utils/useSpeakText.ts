@@ -27,24 +27,43 @@ export function useSpeakText(text: string, opts?: SpeakOptions): Promise<void> {
       if (opts?.lang) utter.lang = opts.lang;
       utter.rate = opts?.rate ?? 1;
       utter.pitch = opts?.pitch ?? 1;
+      utter.volume = 1; // Explicitly set volume for iOS
 
+      const selectVoiceAndSpeak = () => {
+        const voices = synth.getVoices();
+        if (opts?.voiceName) {
+          const v = voices.find((vv) => vv.name === opts.voiceName);
+          if (v) utter.voice = v;
+        } else if (voices.length > 0) {
+          // prefer an English voice if available
+          const enVoice = voices.find((v) => (v.lang || "").startsWith("en"));
+          if (enVoice) utter.voice = enVoice;
+        }
+
+        utter.onend = () => resolve();
+        utter.onerror = (e) => {
+          console.error("Speech synthesis error:", e);
+          reject(e);
+        };
+
+        try {
+          synth.speak(utter);
+        } catch (e) {
+          reject(e);
+        }
+      };
+
+      // For iOS, voices may not be loaded immediately
       const voices = synth.getVoices();
-      if (opts?.voiceName) {
-        const v = voices.find((vv) => vv.name === opts.voiceName);
-        if (v) utter.voice = v;
-      } else if (voices.length > 0) {
-        // prefer an English voice if available
-        const enVoice = voices.find((v) => (v.lang || "").startsWith("en"));
-        if (enVoice) utter.voice = enVoice;
-      }
-
-      utter.onend = () => resolve();
-      utter.onerror = (e) => reject(e);
-
-      try {
-        synth.speak(utter);
-      } catch (e) {
-        reject(e);
+      if (voices.length > 0) {
+        selectVoiceAndSpeak();
+      } else {
+        // Wait for voices to load (important for iOS/Safari)
+        synth.addEventListener("voiceschanged", selectVoiceAndSpeak, {
+          once: true,
+        });
+        // Fallback if voiceschanged never fires
+        setTimeout(selectVoiceAndSpeak, 100);
       }
     } catch (err) {
       reject(err);
