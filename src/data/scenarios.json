@@ -6,7 +6,7 @@
       "legs": [
         {
           "id": "Ramp-Y",
-          "instruction": "Ask Ground for closed traffic. You are at the Yankee ramp and have information Charlie.",
+          "instruction": "Ask Ground for closed traffic. You're at the Yankee ramp and have information Charlie.",
           "readback": "Gateway Ground, Sue #_## at the yankee ramp with information Charlie, request closed traffic.",
           "sender": "Hint"
         },
@@ -30,9 +30,9 @@
         },
         {
           "id": "Runup-HOLD-SHORT-12R",
-          "instruction": "Sue #_## contact tower.",
-          "readback": "Contact tower Su #_##.",
-          "sender": "Gateway Ground"
+          "instruction": "Runup complete. Let Gateway Tower know you're ready for departure. (Local procedure for UND does not require an explicit handoff from Ground to Tower when departing.)",
+          "readback": "Gateway Tower Su #_## ready for departure.",
+          "sender": "Hint"
         },
         {
           "id": "E-HOLD-SHORT-12C",
@@ -102,7 +102,7 @@
         },
         {
           "id": "_12L-Upwind-1",
-          "instruction": "Sue 6 46 cleare touch and go runway 1 2 center.",
+          "instruction": "Sue 6 46 cleared touch and go runway 1 2 left.",
           "readback": "",
           "sender": "Gateway Tower"
         },
@@ -132,7 +132,7 @@
         },
         {
           "id": "_12L-Downwind-2",
-          "instruction": "Sue #_## traffic is a company Archer on final 1 2 center. Follow the traffic cleared stop and go runway 1 2 left.",
+          "instruction": "Sue #_## traffic is a company Archer on final 1 2 left. Follow the traffic cleared stop and go runway 1 2 left.",
           "readback": "Cleared stop and go runway 1 2 left number 2 Su #_##.",
           "sender": "Gateway Tower"
         },
