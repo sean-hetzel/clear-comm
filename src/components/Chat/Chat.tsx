@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 import { makeTextMakeSense } from "../../utils/makeTextmakeSense";
 
 export type ChatEntry = {
-  sender: "ATC" | "You";
+  sender: string;
   message: string;
 };
 
@@ -49,7 +49,7 @@ export default function Chat({
               <div key={idx} className={styles.line}>
                 <strong
                   className={`${styles.role} ${
-                    entry.sender === "ATC" ? styles.atc : styles.user
+                    entry.sender === "You" ? styles.user : styles.atc
                   }`}
                 >
                   {entry.sender}:

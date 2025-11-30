@@ -59,6 +59,8 @@ export default function Sim() {
       // Repeat the current instruction when readback doesn't match
       const currentInstruction =
         selectedScenarioObj?.legs?.[legIndex]?.instruction;
+      const currentSender =
+        selectedScenarioObj?.legs?.[legIndex]?.sender ?? "ATC";
       if (currentInstruction) {
         // Add "negative" after callsign pattern (e.g., "Sue 7 18" -> "Sue 7 18, negative")
         // Match "Sue" followed by digits/spaces pattern
@@ -70,7 +72,7 @@ export default function Sim() {
         // Add to chat history
         setChatHistory((prev) => [
           ...prev,
-          { sender: "ATC", message: modifiedInstruction },
+          { sender: currentSender, message: modifiedInstruction },
         ]);
       }
     },
@@ -80,6 +82,8 @@ export default function Sim() {
   useEffect(() => {
     const currentInstruction =
       selectedScenarioObj?.legs?.[legIndex]?.instruction;
+    const currentSender =
+      selectedScenarioObj?.legs?.[legIndex]?.sender ?? "ATC";
     if (currentInstruction && announcedLegRef.current !== legIndex) {
       announcedLegRef.current = legIndex;
       useSpeakText(currentInstruction).catch((err) => console.error(err));
@@ -89,7 +93,7 @@ export default function Sim() {
         chatAddedRef.current.add(legIndex);
         setChatHistory((prev) => [
           ...prev,
-          { sender: "ATC", message: currentInstruction },
+          { sender: currentSender, message: currentInstruction },
         ]);
       }
     }
