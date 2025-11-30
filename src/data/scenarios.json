@@ -6,8 +6,8 @@
       "legs": [
         {
           "id": "Ramp-Y",
-          "instruction": "Ask Ground for closed traffic. You're at the Yankee ramp and have information Charlie.",
-          "readback": "Gateway Ground, Sue #_## at the yankee ramp with information Charlie, request closed traffic.",
+          "instruction": "Ask Ground for closed traffic. You're at the Yankee ramp and have information [weather].",
+          "readback": "Gateway Ground, Sue #_## at the yankee ramp with information [weather], request closed traffic.",
           "sender": "Hint"
         },
         {

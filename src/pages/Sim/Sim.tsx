@@ -21,6 +21,7 @@ export default function Sim() {
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [tailNumber, setTailNumber] = useState("");
+  const [weatherInfo, setWeatherInfo] = useState("");
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +44,18 @@ export default function Sim() {
     );
   };
 
-  const currentReadback = replaceTailNumber(
+  // Helper function to replace [weather] pattern with weather info
+  const replaceWeatherInfo = (text: string) => {
+    if (!weatherInfo) return text;
+    return text.replace(/\[weather\]/g, weatherInfo);
+  };
+
+  // Helper function to replace both patterns
+  const replacePatterns = (text: string) => {
+    return replaceWeatherInfo(replaceTailNumber(text));
+  };
+
+  const currentReadback = replacePatterns(
     selectedScenarioObj?.legs?.[legIndex]?.readback ?? ""
   );
 
@@ -71,6 +83,41 @@ export default function Sim() {
     };
     setTailNumber(generateTailNumber());
 
+    // Generate random weather info (phonetic alphabet letter) on mount
+    const generateWeatherInfo = () => {
+      const phoneticAlphabet = [
+        "Alpha",
+        "Bravo",
+        "Charlie",
+        "Delta",
+        "Echo",
+        "Foxtrot",
+        "Golf",
+        "Hotel",
+        "India",
+        "Juliett",
+        "Kilo",
+        "Lima",
+        "Mike",
+        "November",
+        "Oscar",
+        "Papa",
+        "Quebec",
+        "Romeo",
+        "Sierra",
+        "Tango",
+        "Uniform",
+        "Victor",
+        "Whiskey",
+        "Xray",
+        "Yankee",
+        "Zulu",
+      ];
+      const randomIndex = Math.floor(Math.random() * phoneticAlphabet.length);
+      return phoneticAlphabet[randomIndex];
+    };
+    setWeatherInfo(generateWeatherInfo());
+
     // This effect runs on mount and sets up something if needed
     return () => {
       // Cleanup on unmount
@@ -87,7 +134,7 @@ export default function Sim() {
       // Append the user's readback (what was heard) to the chat
       setChatHistory((prev) => [
         ...prev,
-        { sender: "You", message: replaceTailNumber(raw) },
+        { sender: "You", message: replacePatterns(raw) },
       ]);
       setCorrectCount((c) => c + 1);
     },
@@ -95,12 +142,12 @@ export default function Sim() {
       // Add the incorrect readback to chat
       setChatHistory((prev) => [
         ...prev,
-        { sender: "You", message: replaceTailNumber(raw) },
+        { sender: "You", message: replacePatterns(raw) },
       ]);
       setIncorrectCount((c) => c + 1);
 
       // Repeat the current instruction when readback doesn't match
-      const currentInstruction = replaceTailNumber(
+      const currentInstruction = replacePatterns(
         selectedScenarioObj?.legs?.[legIndex]?.instruction ?? ""
       );
       const currentSender =
@@ -144,7 +191,10 @@ export default function Sim() {
 
   // Separate effect for announcing instructions (runs when legIndex changes)
   useEffect(() => {
-    const currentInstruction = replaceTailNumber(
+    // Wait for both tailNumber and weatherInfo to be set before processing
+    if (!tailNumber || !weatherInfo) return;
+
+    const currentInstruction = replacePatterns(
       selectedScenarioObj?.legs?.[legIndex]?.instruction ?? ""
     );
     const currentSender =
@@ -171,7 +221,7 @@ export default function Sim() {
         ]);
       }
     }
-  }, [legIndex, selectedScenarioObj]);
+  }, [legIndex, selectedScenarioObj, tailNumber, weatherInfo, replacePatterns]);
 
   useEffect(() => {
     const svg = svgRef.current;
