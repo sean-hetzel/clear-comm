@@ -20,6 +20,7 @@ export default function Sim() {
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [tailNumber, setTailNumber] = useState("");
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
@@ -31,7 +32,20 @@ export default function Sim() {
   const selectedScenarioObj =
     scenarios.data?.find((s) => s.name === scenario) || scenarios.data?.[0];
   const legIds = selectedScenarioObj?.legs?.map((l) => l.id) ?? [];
-  const currentReadback = selectedScenarioObj?.legs?.[legIndex]?.readback ?? "";
+
+  // Helper function to replace #_## pattern with tail number
+  const replaceTailNumber = (text: string) => {
+    if (!tailNumber) return text;
+    // Replace #_## with actual tail number (e.g., "5 04" for N504ND)
+    return text.replace(
+      /#_##/g,
+      `${tailNumber[1]} ${tailNumber[2]}${tailNumber[3]}`
+    );
+  };
+
+  const currentReadback = replaceTailNumber(
+    selectedScenarioObj?.legs?.[legIndex]?.readback ?? ""
+  );
 
   // Hook listens for "Next" and triggers handleNext
   // Keep the handler stable to avoid recreating speech recognition on each render
@@ -48,6 +62,15 @@ export default function Sim() {
   }, [legIds.length]);
 
   useEffect(() => {
+    // Generate random tail number on mount
+    const generateTailNumber = () => {
+      const digits = Array.from({ length: 3 }, () =>
+        Math.floor(Math.random() * 10)
+      );
+      return `N${digits[0]}${digits[1]}${digits[2]}ND`;
+    };
+    setTailNumber(generateTailNumber());
+
     // This effect runs on mount and sets up something if needed
     return () => {
       // Cleanup on unmount
@@ -62,30 +85,39 @@ export default function Sim() {
     threshold: 0.3,
     onMatch: (_t, raw) => {
       // Append the user's readback (what was heard) to the chat
-      setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
+      setChatHistory((prev) => [
+        ...prev,
+        { sender: "You", message: replaceTailNumber(raw) },
+      ]);
       setCorrectCount((c) => c + 1);
     },
     onNotMatch: (_t, raw) => {
       // Add the incorrect readback to chat
-      setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
+      setChatHistory((prev) => [
+        ...prev,
+        { sender: "You", message: replaceTailNumber(raw) },
+      ]);
       setIncorrectCount((c) => c + 1);
 
       // Repeat the current instruction when readback doesn't match
-      const currentInstruction =
-        selectedScenarioObj?.legs?.[legIndex]?.instruction;
+      const currentInstruction = replaceTailNumber(
+        selectedScenarioObj?.legs?.[legIndex]?.instruction ?? ""
+      );
       const currentSender =
         selectedScenarioObj?.legs?.[legIndex]?.sender ?? "ATC";
-      
+
       if (currentInstruction) {
         // Special handling for Hint - determine sender based on readback content
         if (currentSender === "Hint") {
           // Check if readback contains "Ground" or "Tower" to determine who responds
-          const respondingSender = currentReadback.toLowerCase().includes("ground")
+          const respondingSender = currentReadback
+            .toLowerCase()
+            .includes("ground")
             ? "Gateway Ground"
             : currentReadback.toLowerCase().includes("tower")
             ? "Gateway Tower"
             : "Gateway Ground"; // Default to Ground if neither found
-          
+
           const sayAgainMessage = "Aircraft calling, say again.";
           useSpeakText(sayAgainMessage).catch((err) => console.error(err));
           setChatHistory((prev) => [
@@ -112,8 +144,9 @@ export default function Sim() {
 
   // Separate effect for announcing instructions (runs when legIndex changes)
   useEffect(() => {
-    const currentInstruction =
-      selectedScenarioObj?.legs?.[legIndex]?.instruction;
+    const currentInstruction = replaceTailNumber(
+      selectedScenarioObj?.legs?.[legIndex]?.instruction ?? ""
+    );
     const currentSender =
       selectedScenarioObj?.legs?.[legIndex]?.sender ?? "ATC";
 
@@ -254,6 +287,7 @@ export default function Sim() {
         handleNext={handleNext}
         isCompleted={legIndex === legIds.length}
         onShowStats={() => setShowCompletionModal(true)}
+        tailNumber={tailNumber}
       />
       <div className={styles.simArea}>
         <div className={styles.stage}>

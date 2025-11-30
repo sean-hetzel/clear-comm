@@ -1,7 +1,6 @@
 import { Button } from "@mui/joy";
 import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
-import { makeTextMakeSense } from "../../utils/makeTextmakeSense";
 
 type HeaderProps = {
   scenario?: string | null;
@@ -10,16 +9,16 @@ type HeaderProps = {
   handleNext?: () => void;
   isCompleted?: boolean;
   onShowStats?: () => void;
+  tailNumber?: string;
 };
 
 export default function Header(props: HeaderProps) {
   const {
     scenario,
-    legIds = [],
-    legIndex = 0,
     handleNext,
     isCompleted = false,
     onShowStats,
+    tailNumber = "",
   } = props;
   const navigate = useNavigate();
 
@@ -45,8 +44,7 @@ export default function Header(props: HeaderProps) {
         <span className={styles.infoTitle}>Scenario:</span> {scenario}
       </p>
       <p>
-        <span className={styles.infoTitle}>Current Leg:</span>{" "}
-        {makeTextMakeSense(legIds[legIndex - 1] ?? "") || "None"}
+        <span className={styles.infoTitle}>Reg:</span> {tailNumber || "N/A"}
       </p>
     </div>
   );

@@ -7,13 +7,13 @@
         {
           "id": "Ramp-Y",
           "instruction": "Ask Ground for closed traffic. You are at the Yankee ramp and have information Charlie.",
-          "readback": "Gateway Ground, Sue 7 18 at the yankee ramp with information Charlie, request closed traffic.",
+          "readback": "Gateway Ground, Sue #_## at the yankee ramp with information Charlie, request closed traffic.",
           "sender": "Hint"
         },
         {
           "id": "Ramp-Y",
-          "instruction": "Sue 7 18 taxi runway 1 2 center via yankee echo hold short of golf in the hold bay.",
-          "readback": "1 2 center via yankee echo hold short of golf in the hold bay Su 7 18.",
+          "instruction": "Sue #_## taxi runway 1 2 center via yankee echo hold short of golf in the hold bay.",
+          "readback": "1 2 center via yankee echo hold short of golf in the hold bay Su #_##.",
           "sender": "Gateway Ground"
         },
         {
@@ -30,20 +30,20 @@
         },
         {
           "id": "Runup-HOLD-SHORT-12R",
-          "instruction": "Sue 7 18 contact tower.",
-          "readback": "Contact tower Su 7 18.",
+          "instruction": "Sue #_## contact tower.",
+          "readback": "Contact tower Su #_##.",
           "sender": "Gateway Ground"
         },
         {
           "id": "E-HOLD-SHORT-12C",
-          "instruction": "Sue 7 18 taxi via golf cross runway 1 2 right at golf hold short runway 1 2 center.",
-          "readback": "Cross 12 right at golf hold short runway 1 2 center Su 7 18.",
+          "instruction": "Sue #_## taxi via golf cross runway 1 2 right at golf hold short runway 1 2 center.",
+          "readback": "Cross 12 right at golf hold short runway 1 2 center Su #_##.",
           "sender": "Gateway Tower"
         },
         {
           "id": "E-Line-Up-12C",
-          "instruction": "Sue 7 18 left closed traffic approved, cleared for takeoff runway 1 2 center.",
-          "readback": "Cleared for takeoff runway 1 2 center Su 7 18.",
+          "instruction": "Sue #_## left closed traffic approved, cleared for takeoff runway 1 2 center.",
+          "readback": "Cleared for takeoff runway 1 2 center Su #_##.",
           "sender": "Gateway Tower"
         },
         {
@@ -78,8 +78,8 @@
         },
         {
           "id": "_12L-Downwind-2",
-          "instruction": "Sue 7 18 cleared stop and go runway 1 2 left.",
-          "readback": "Cleared stop and go runway 1 2 left Su 7 18.",
+          "instruction": "Sue #_## cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go runway 1 2 left Su #_##.",
           "sender": "Gateway Tower"
         },
         {
@@ -132,8 +132,8 @@
         },
         {
           "id": "_12L-Downwind-2",
-          "instruction": "Sue 7 18 traffic is a company Archer on final 1 2 center. Follow the traffic cleared stop and go runway 1 2 left.",
-          "readback": "Cleared stop and go runway 1 2 left number 2 Su 7 18.",
+          "instruction": "Sue #_## traffic is a company Archer on final 1 2 center. Follow the traffic cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go runway 1 2 left number 2 Su #_##.",
           "sender": "Gateway Tower"
         },
         {
@@ -186,8 +186,8 @@
         },
         {
           "id": "_12L-Downwind-2",
-          "instruction": "Sue 7 18 extend downwind, I'll call your base.",
-          "readback": "Extend downwind Su 7 18.",
+          "instruction": "Sue #_## extend downwind, I'll call your base.",
+          "readback": "Extend downwind Su #_##.",
           "sender": "Gateway Tower"
         },
         {
@@ -198,8 +198,8 @@
         },
         {
           "id": "_12L-Base-Extended",
-          "instruction": "Sue 7 18 begin base, traffic just departed 1 2 center is an Airbus, caution wake turbulance. Cleared stop and go runway 1 2 left.",
-          "readback": "Cleared stop and go runway 1 2 left Su 7 18.",
+          "instruction": "Sue #_## begin base, traffic just departed 1 2 center is an Airbus, caution wake turbulance. Cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go runway 1 2 left Su #_##.",
           "sender": "Gateway Tower"
         },
         {
@@ -241,13 +241,13 @@
         {
           "id": "_12L-Downwind-1",
           "instruction": "Ask for a full stop landing.",
-          "readback": "Gateway Tower requesting full stop landing Sue 7 18.",
+          "readback": "Gateway Tower requesting full stop landing Sue #_##.",
           "sender": "Hint"
         },
         {
           "id": "_12L-Downwind-2",
-          "instruction": "Sue 7 18 change runway 1 2 center, cleared to land runway 1 2 center.",
-          "readback": "Cleared to land runway 1 2 center Su 7 18.",
+          "instruction": "Sue #_## change runway 1 2 center, cleared to land runway 1 2 center.",
+          "readback": "Cleared to land runway 1 2 center Su #_##.",
           "sender": "Gateway Tower"
         },
         {
@@ -270,26 +270,26 @@
         },
         {
           "id": "K-HOLD-SHORT-12R",
-          "instruction": "Sue 7 18 turn right on kilo, hold short runway 1 2 right.",
-          "readback": "Hold short runway 1 2 right Su 7 18.",
+          "instruction": "Sue #_## turn right on kilo, hold short runway 1 2 right.",
+          "readback": "Hold short runway 1 2 right Su #_##.",
           "sender": "Gateway Tower"
         },
         {
           "id": "K-Crossing-12R",
-          "instruction": "Sue 7 18 cross 1 2 right at kilo contact ground.",
-          "readback": "Cross runway 1 2 right at kilo contact ground Su 7 18.",
+          "instruction": "Sue #_## cross 1 2 right at kilo contact ground.",
+          "readback": "Cross runway 1 2 right at kilo contact ground Su #_##.",
           "sender": "Gateway Tower"
         },
         {
           "id": "K-B",
           "instruction": "Ask Gateway Ground for taxi to the yankee ramp.",
-          "readback": "Gateway Ground Su 7 18 clear of 1 2 right at kilo request taxi to yankee ramp.",
+          "readback": "Gateway Ground Su #_## clear of 1 2 right at kilo request taxi to yankee ramp.",
           "sender": "Hint"
         },
         {
           "id": "K-B",
-          "instruction": "Sue 7 18 taxi yankee ramp via bravo yankee 1 yankee.",
-          "readback": "Yankee ramp via bravo yankee 1 yankee Su 7 18.",
+          "instruction": "Sue #_## taxi yankee ramp via bravo yankee 1 yankee.",
+          "readback": "Yankee ramp via bravo yankee 1 yankee Su #_##.",
           "sender": "Gateway Ground"
         },
         {
