@@ -160,13 +160,49 @@ export default function useVoiceCommand(
       }
     };
 
+    let isActive = true;
+
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-      console.error("Speech recognition error:", event);
+      console.error("Speech recognition error:", event.error);
+      // Restart on certain errors (but not on abort which happens during cleanup)
+      if (
+        isActive &&
+        event.error !== "aborted" &&
+        event.error !== "not-allowed"
+      ) {
+        console.log("Restarting speech recognition after error...");
+        setTimeout(() => {
+          if (isActive) {
+            try {
+              recognition.start();
+            } catch (e) {
+              console.error("Failed to restart recognition:", e);
+            }
+          }
+        }, 100);
+      }
+    };
+
+    recognition.onend = () => {
+      // Auto-restart when recognition stops (e.g., from timeout)
+      if (isActive) {
+        console.log("Speech recognition ended, restarting...");
+        setTimeout(() => {
+          if (isActive) {
+            try {
+              recognition.start();
+            } catch (e) {
+              console.error("Failed to restart recognition:", e);
+            }
+          }
+        }, 100);
+      }
     };
 
     recognition.start();
 
     return () => {
+      isActive = false;
       try {
         recognition.stop();
       } catch (err) {
@@ -174,6 +210,7 @@ export default function useVoiceCommand(
       }
       recognition.onresult = null;
       recognition.onerror = null;
+      recognition.onend = null;
     };
   }, [onCommand, JSON.stringify(commands), JSON.stringify(options)]);
 }

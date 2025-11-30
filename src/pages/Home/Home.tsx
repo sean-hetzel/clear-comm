@@ -18,6 +18,8 @@ export default function Home(props: HomeProps) {
 
   // Optionally store selected scenario
   const [isError, setIsError] = useState(false);
+  const [isTesting, setIsTesting] = useState(false);
+  const [testResult, setTestResult] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +36,47 @@ export default function Home(props: HomeProps) {
     // Convert the scenario name to a URL-friendly format and navigate with query param
     const scenarioParam = encodeURIComponent(selectedScenario);
     navigate(`/sim?scenario=${scenarioParam}`);
+  };
+
+  const handleMicTest = () => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      setTestResult("Speech recognition not supported in this browser");
+      return;
+    }
+
+    setIsTesting(true);
+    setTestResult("Listening... Say something!");
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setTestResult(`Heard: "${transcript}"`);
+      setIsTesting(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      setTestResult(`Error: ${event.error}`);
+      setIsTesting(false);
+    };
+
+    recognition.onend = () => {
+      setIsTesting(false);
+    };
+
+    try {
+      recognition.start();
+    } catch (err) {
+      setTestResult(`Failed to start: ${err}`);
+      setIsTesting(false);
+    }
   };
 
   return (
@@ -59,7 +102,12 @@ export default function Home(props: HomeProps) {
           <span className={styles.errorMessage}>Please select a scenario</span>
         )}
         <Button onClick={handleStart}>Start</Button>
-        <Button variant="outlined">Test Microphone</Button>
+        <Button variant="outlined" onClick={handleMicTest} disabled={isTesting}>
+          {isTesting ? "Listening..." : "Test Microphone"}
+        </Button>
+        {testResult && (
+          <span className={styles.micTestMessage}>{testResult}</span>
+        )}
       </div>
       <span className={styles.githubLink}>
         <a href="https://github.com/sean-hetzel/clear-comm" target="_none">

@@ -75,8 +75,14 @@
 
 .errorMessage {
   color: #fce4e4;
-  margin-top: 1.5rem;
-  position: static;
+  bottom: 10.8rem;
+  position: absolute;
+}
+
+.micTestMessage {
+  color: #ffffff;
+  bottom: 1.5em;
+  position: absolute;
 }
 
 @media (max-width: 600px) {
