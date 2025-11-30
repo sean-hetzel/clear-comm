@@ -7,7 +7,7 @@
         {
           "id": "_12C-Upwind-1",
           "instruction": "Sue 7 18 left closed traffic approved, cleared for takeoff runway 1 2 center.",
-          "readback": "Cleared for takeoff 1 2 center Su 7 18.",
+          "readback": "Cleared for takeoff runway 1 2 center Su 7 18.",
           "sender": "KIWA Tower"
         },
         {
@@ -37,7 +37,7 @@
         {
           "id": "_12L-Downwind-2",
           "instruction": "Sue 7 18 cleared stop and go runway 1 2 left.",
-          "readback": "Cleared stop and go 1 2 left Su 7 18.",
+          "readback": "Cleared stop and go runway 1 2 left Su 7 18.",
           "sender": "KIWA Tower"
         },
         {
@@ -91,7 +91,7 @@
         {
           "id": "_12L-Downwind-2",
           "instruction": "Sue 7 18 traffic is a company Archer on final 1 2 left. Follow the traffic cleared stop and go runway 1 2 left.",
-          "readback": "Cleared stop and go 1 2 left number 2 Su 7 18.",
+          "readback": "Cleared stop and go runway 1 2 left number 2 Su 7 18.",
           "sender": "KIWA Tower"
         },
         {
@@ -156,8 +156,8 @@
         },
         {
           "id": "_12L-Base-Extended",
-          "instruction": "Sue 7 18 begin base, traffic just departed 1 2 center is an airbus, caution wake turbulance. Cleared stop and go runway 1 2 left.",
-          "readback": "Cleared stop and go 1 2 left Su 7 18.",
+          "instruction": "Sue 7 18 begin base, traffic just departed 1 2 center is an Airbus, caution wake turbulance. Cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go runway 1 2 left Su 7 18.",
           "sender": "KIWA Tower"
         },
         {

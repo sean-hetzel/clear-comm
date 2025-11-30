@@ -8,10 +8,19 @@ type HeaderProps = {
   legIds?: string[];
   legIndex?: number;
   handleNext?: () => void;
+  isCompleted?: boolean;
+  onShowStats?: () => void;
 };
 
 export default function Header(props: HeaderProps) {
-  const { scenario, legIds = [], legIndex = 0, handleNext } = props;
+  const {
+    scenario,
+    legIds = [],
+    legIndex = 0,
+    handleNext,
+    isCompleted = false,
+    onShowStats,
+  } = props;
   const navigate = useNavigate();
 
   return (
@@ -28,6 +37,11 @@ export default function Header(props: HeaderProps) {
       <Button onClick={handleNext} variant="outlined">
         Next
       </Button>
+      {isCompleted && onShowStats && (
+        <Button onClick={onShowStats} variant="outlined" color="neutral">
+          Stats
+        </Button>
+      )}
       <p>
         <span className={styles.infoTitle}>Scenario:</span> {scenario}
       </p>

@@ -9,12 +9,16 @@ import scenarios from "../../data/scenarios.json";
 import Chat from "../../components/Chat/Chat";
 import type { ChatEntry } from "../../components/Chat/Chat";
 import Header from "../../components/Header/Header";
+import CompletionModal from "../../components/CompletionModal/CompletionModal";
 
 export default function Sim() {
   const [searchParams] = useSearchParams();
   const scenario = searchParams.get("scenario");
   const [legIndex, setLegIndex] = useState(0); // which leg the user is on
   const [chatHistory, setChatHistory] = useState<ChatEntry[]>([]);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const airplaneRef = useRef<HTMLDivElement | null>(null);
@@ -32,7 +36,14 @@ export default function Sim() {
   // Keep the handler stable to avoid recreating speech recognition on each render
   const handleNext = useCallback(() => {
     // Allow advancing through all legs. legIndex values are: 0 (start) up to legIds.length
-    setLegIndex((i) => (i < legIds.length ? i + 1 : i));
+    setLegIndex((i) => {
+      const nextIndex = i < legIds.length ? i + 1 : i;
+      // Check if we've reached the end
+      if (nextIndex === legIds.length) {
+        setShowCompletionModal(true);
+      }
+      return nextIndex;
+    });
   }, [legIds.length]);
 
   useEffect(() => {
@@ -51,10 +62,12 @@ export default function Sim() {
     onMatch: (_t, raw) => {
       // Append the user's readback (what was heard) to the chat
       setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
+      setCorrectCount((c) => c + 1);
     },
     onNotMatch: (_t, raw) => {
       // Add the incorrect readback to chat
       setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
+      setIncorrectCount((c) => c + 1);
 
       // Repeat the current instruction when readback doesn't match
       const currentInstruction =
@@ -216,6 +229,8 @@ export default function Sim() {
         legIds={legIds}
         legIndex={legIndex}
         handleNext={handleNext}
+        isCompleted={legIndex === legIds.length}
+        onShowStats={() => setShowCompletionModal(true)}
       />
       <div className={styles.simArea}>
         <div className={styles.stage}>
@@ -229,6 +244,14 @@ export default function Sim() {
       </div>
       {/* Chat overlay */}
       <Chat history={chatHistory} />
+      {/* Completion modal */}
+      {showCompletionModal && (
+        <CompletionModal
+          correctCount={correctCount}
+          incorrectCount={incorrectCount}
+          onClose={() => setShowCompletionModal(false)}
+        />
+      )}
     </div>
   );
 }
