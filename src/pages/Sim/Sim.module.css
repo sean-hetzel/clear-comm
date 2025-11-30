@@ -48,4 +48,5 @@
   transform: translate(-50%, -50%); /* centers the airplane on the path */
   transform-origin: center center; /* make rotations pivot around the center */
   pointer-events: none; /* optional, prevents clicks on the airplane */
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 1px rgba(0, 0, 0, 1));
 }

@@ -4,7 +4,7 @@
   <defs>
     <style>
       .st0 {
-        fill: #096bde;
+        fill: rgb(255, 227, 66);
         fill-rule: evenodd;
       }
     </style>
