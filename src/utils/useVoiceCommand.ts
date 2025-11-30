@@ -14,6 +14,7 @@ export interface UseVoiceOptions {
   threshold?: number; // 0..1 for tokens match
   onTranscript?: (transcript: string, raw: string) => void;
   onMatch?: (transcript: string, raw: string, matchedCommand: string) => void;
+  onNotMatch?: (transcript: string, raw: string) => void;
 }
 
 export default function useVoiceCommand(
@@ -41,24 +42,30 @@ export default function useVoiceCommand(
       threshold = 0.5,
       onTranscript,
       onMatch,
+      onNotMatch,
     } = options ?? {};
 
-    // Normalize commands if provided
-    let normalizedCommands: string[] | null = null;
-    if (commands) {
-      normalizedCommands = (
-        Array.isArray(commands) ? commands : [commands]
-      ).map((c) => normalizeText(c));
-    }
+    // Check if commands is empty string before any processing
+    const commandsArray = commands
+      ? Array.isArray(commands)
+        ? commands
+        : [commands]
+      : null;
 
-    // If commands contains an empty string we should trigger onCommand immediately
-    if (normalizedCommands && normalizedCommands.includes("")) {
+    // If any command is an empty string, trigger onCommand immediately
+    if (commandsArray && commandsArray.some((cmd) => cmd === "")) {
       try {
         onCommand();
       } catch (err) {
         console.error(err);
       }
       return; // no need to start listening
+    }
+
+    // Normalize commands if provided
+    let normalizedCommands: string[] | null = null;
+    if (commandsArray) {
+      normalizedCommands = commandsArray.map((c) => normalizeText(c));
     }
 
     // If no commands were passed in, do not listen. This removes the old
@@ -89,10 +96,14 @@ export default function useVoiceCommand(
           console.error(e);
         }
 
+        // Track if any command matched
+        let matched = false;
+
         // Only match commands that were explicitly provided.
         for (const cmd of normalizedCommands) {
           if (!cmd) continue;
           if (matchMode === "equals" && transcript === cmd) {
+            matched = true;
             try {
               onMatch?.(transcript, rawTranscript, cmd);
             } catch (err) {
@@ -106,6 +117,7 @@ export default function useVoiceCommand(
             break;
           }
           if (matchMode === "includes" && transcript.includes(cmd)) {
+            matched = true;
             try {
               onMatch?.(transcript, rawTranscript, cmd);
             } catch (err) {
@@ -122,6 +134,7 @@ export default function useVoiceCommand(
             matchMode === "tokens" &&
             tokenMatch(transcript, cmd, threshold)
           ) {
+            matched = true;
             try {
               onMatch?.(transcript, rawTranscript, cmd);
             } catch (err) {
@@ -133,6 +146,15 @@ export default function useVoiceCommand(
               console.error(err);
             }
             break;
+          }
+        }
+
+        // If no command matched, trigger onNotMatch
+        if (!matched && onNotMatch) {
+          try {
+            onNotMatch(transcript, rawTranscript);
+          } catch (err) {
+            console.error(err);
           }
         }
       }

@@ -47,10 +47,32 @@ export default function Sim() {
 
   useVoiceCommand(handleNext, currentReadback, {
     matchMode: "tokens",
-    threshold: 0.5,
+    threshold: 0.3,
     onMatch: (_t, raw) => {
       // Append the user's readback (what was heard) to the chat
       setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
+    },
+    onNotMatch: (_t, raw) => {
+      // Add the incorrect readback to chat
+      setChatHistory((prev) => [...prev, { sender: "You", message: raw }]);
+
+      // Repeat the current instruction when readback doesn't match
+      const currentInstruction =
+        selectedScenarioObj?.legs?.[legIndex]?.instruction;
+      if (currentInstruction) {
+        // Add "negative" after callsign pattern (e.g., "Sue 7 18" -> "Sue 7 18, negative")
+        // Match "Sue" followed by digits/spaces pattern
+        const modifiedInstruction = currentInstruction.replace(
+          /(Sue(?:\s+\d+)+)/i,
+          "$1, negative,"
+        );
+        useSpeakText(modifiedInstruction).catch((err) => console.error(err));
+        // Add to chat history
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "ATC", message: modifiedInstruction },
+        ]);
+      }
     },
   });
 
@@ -163,6 +185,11 @@ export default function Sim() {
 
       if (progress <= total) {
         rafId = requestAnimationFrame(animate);
+      } else {
+        // Animation complete - if readback is empty, automatically advance
+        if (currentReadback === "") {
+          handleNext();
+        }
       }
     }
 
