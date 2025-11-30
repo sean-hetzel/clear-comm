@@ -27,32 +27,65 @@ export function useSpeakText(text: string, opts?: SpeakOptions): Promise<void> {
       if (opts?.lang) utter.lang = opts.lang;
       utter.rate = opts?.rate ?? 1;
       utter.pitch = opts?.pitch ?? 1;
+      utter.volume = 1; // Explicitly set volume for iOS
 
+      const selectVoiceAndSpeak = () => {
+        const voices = synth.getVoices();
+        if (opts?.voiceName) {
+          const v = voices.find((vv) => vv.name === opts.voiceName);
+          if (v) utter.voice = v;
+        } else if (voices.length > 0) {
+          // prefer an English voice if available
+          const enVoice = voices.find((v) => (v.lang || "").startsWith("en"));
+          if (enVoice) utter.voice = enVoice;
+        }
+
+        utter.onend = () => {
+          window.dispatchEvent(new CustomEvent("speechEnd"));
+          resolve();
+        };
+        utter.onerror = (e) => {
+          window.dispatchEvent(new CustomEvent("speechEnd"));
+          reject(e);
+        };
+
+        try {
+          window.dispatchEvent(new CustomEvent("speechStart"));
+          synth.speak(utter);
+        } catch (e) {
+          window.dispatchEvent(new CustomEvent("speechEnd"));
+          reject(e);
+        }
+      };
+
+      // For iOS, voices may not be loaded immediately
       const voices = synth.getVoices();
-      if (opts?.voiceName) {
-        const v = voices.find((vv) => vv.name === opts.voiceName);
-        if (v) utter.voice = v;
-      } else if (voices.length > 0) {
-        // prefer an English voice if available
-        const enVoice = voices.find((v) => (v.lang || "").startsWith("en"));
-        if (enVoice) utter.voice = enVoice;
-      }
+      if (voices.length > 0) {
+        // Voices already loaded, speak immediately
+        selectVoiceAndSpeak();
+      } else {
+        // Wait for voices to load (important for iOS/Safari)
+        // Use a flag to ensure we only speak once
+        let hasSpoken = false;
 
-      utter.onend = () => {
-        window.dispatchEvent(new CustomEvent("speechEnd"));
-        resolve();
-      };
-      utter.onerror = (e) => {
-        window.dispatchEvent(new CustomEvent("speechEnd"));
-        reject(e);
-      };
+        const voiceLoadHandler = () => {
+          if (!hasSpoken) {
+            hasSpoken = true;
+            selectVoiceAndSpeak();
+          }
+        };
 
-      try {
-        window.dispatchEvent(new CustomEvent("speechStart"));
-        synth.speak(utter);
-      } catch (e) {
-        window.dispatchEvent(new CustomEvent("speechEnd"));
-        reject(e);
+        synth.addEventListener("voiceschanged", voiceLoadHandler, {
+          once: true,
+        });
+
+        // Fallback timeout in case voiceschanged never fires
+        setTimeout(() => {
+          if (!hasSpoken) {
+            hasSpoken = true;
+            selectVoiceAndSpeak();
+          }
+        }, 100);
       }
     } catch (err) {
       reject(err);
