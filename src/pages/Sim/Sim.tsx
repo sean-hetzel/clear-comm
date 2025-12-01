@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./Sim.module.css";
-import KIWAImage from "../../assets/flightPaths/KIWA-Closed-Traffic.svg?react";
+import KIWAImage from "../../assets/flightPaths/KIWA.svg?react";
 import AirplaneIcon from "../../assets/AirplaneIcon.svg?react";
 import useVoiceCommand from "../../utils/useVoiceCommand";
 import { useSpeakText } from "../../utils/useSpeakText";
@@ -222,6 +222,35 @@ export default function Sim() {
       }
     }
   }, [legIndex, selectedScenarioObj, tailNumber, weatherInfo, replacePatterns]);
+
+  // Effect to control layer visibility based on scenario paths
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const svgEl = svg as SVGSVGElement;
+    const allowedPaths = selectedScenarioObj?.paths || [];
+
+    // Get all top-level groups in the SVG (these are the layers)
+    const allGroups = svgEl.querySelectorAll("svg > g");
+
+    allGroups.forEach((group) => {
+      const groupId = group.id;
+
+      // Always show the Airport layer
+      if (groupId === "Airport") {
+        (group as SVGElement).style.display = "";
+      }
+      // Show layers that are in the allowed paths
+      else if (allowedPaths.includes(groupId)) {
+        (group as SVGElement).style.display = "";
+      }
+      // Hide all other layers
+      else {
+        (group as SVGElement).style.display = "none";
+      }
+    });
+  }, [selectedScenarioObj]);
 
   useEffect(() => {
     const svg = svgRef.current;

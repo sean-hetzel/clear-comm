@@ -2,11 +2,334 @@
   "data": [
     {
       "id": "1",
-      "name": "KIWA Closed Traffic",
+      "name": "KIWA 12C Departure",
+      "paths": ["Taxi-Y-Ramp-to_12C", "Johnson-Ranch-Departure"],
       "legs": [
         {
           "id": "Ramp-Y",
-          "instruction": "Ask Ground for closed traffic. You're at the Yankee ramp and have information [weather].",
+          "instruction": "Ask Ground for Johnson Ranch departure. You're Suoix #_##. You're at the Yankee ramp and have information [weather].",
+          "readback": "Gateway Ground, Sue #_## at the yankee ramp with information [weather], request Johnson Ranch departure.",
+          "sender": "Hint"
+        },
+        {
+          "id": "Ramp-Y",
+          "instruction": "Sue #_## taxi runway 1 2 center via yankee echo hold short of golf in the hold bay.",
+          "readback": "1 2 center via yankee echo hold short of golf in the hold bay Su #_##.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-E",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "E-Runup",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Runup-HOLD-SHORT-12R",
+          "instruction": "Runup complete. Let Gateway Tower know you're ready for departure. (Local procedure for UND does not require an explicit handoff from Ground to Tower when departing.)",
+          "readback": "Gateway Tower Su #_## ready for departure.",
+          "sender": "Hint"
+        },
+        {
+          "id": "E-HOLD-SHORT-12C",
+          "instruction": "Sue #_## taxi via golf cross runway 1 2 right at golf hold short runway 1 2 center.",
+          "readback": "Cross 12 right at golf hold short runway 1 2 center Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "E-Line-Up-12C",
+          "instruction": "Sue #_## right turn Johnson's Ranch approved, delete altitude restriction, cleared for takeoff runway 1 2 center.",
+          "readback": "Cleared for takeoff runway 1 2 center Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12C-Departure",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Turning-140",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_140",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "KIWA 30L Departure",
+      "paths": ["Taxi-Y-Ramp-to-30L-at-L", "San-Tan-Departure"],
+      "legs": [
+        {
+          "id": "Ramp-Y",
+          "instruction": "Ask Ground for San Tan departure. You're Suoix #_##. You're at the Yankee ramp and have information [weather].",
+          "readback": "Gateway Ground, Sue #_## at the yankee ramp with information [weather], request San Tan departure.",
+          "sender": "Hint"
+        },
+        {
+          "id": "Ramp-Y",
+          "instruction": "Sue #_## taxi runway 3 0 left at lima via yankee whisky victor alpha alpha 2 bravo.",
+          "readback": "3 0 left at lima via yankee whisky victor alpha alpha 2 bravo Su #_##.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-W",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "W-V",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "V-A",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "A-A2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "A2-B",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "B-L",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "L-HOLD-SHORT-30L",
+          "instruction": "Runup complete. Let Gateway Tower know you're ready for departure. (Local procedure for UND does not require an explicit handoff from Ground to Tower when departing.)",
+          "readback": "Gateway Tower Su #_## ready for departure.",
+          "sender": "Hint"
+        },
+        {
+          "id": "HOLD-SHORT-30L-Line-Up",
+          "instruction": "Sue #_## left turn San Tan approved, cleared for takeoff runway 3 0 left.",
+          "readback": "Cleared for takeoff runway 3 0 left Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_30L-Departure",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Turning-180",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_180",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "KIWA 12R Arrival",
+      "paths": ["_12R-Arrival", "Taxi-K-to-Y-Ramp"],
+      "legs": [
+        {
+          "id": "_360-1",
+          "instruction": "Request a full stop landing from Gateway Tower. You're Souix #_##. Let them you're in the Gap and have information [weather].",
+          "readback": "Gateway Tower Su #_## Gap information [weather] requesting full stop.",
+          "sender": "Hint"
+        },
+        {
+          "id": "_360-2",
+          "instruction": "Sue #_## make right traffic runway 1 2 right.",
+          "readback": "Right traffic 1 2 right Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Turning-12R-Downwind",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12R-Downwind",
+          "instruction": "Sue #_## cleared to land runway 1 2 right.",
+          "readback": "Cleared to land runway 1 2 right Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12R-Base",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12R-Final",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12R-Turning-K",
+          "instruction": "Sue #_## turn right at kilo contact ground.",
+          "readback": "Turn right at kilo contact ground Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Ask Gateway Ground for taxi to the yankee ramp.",
+          "readback": "Gateway Ground Su #_## clear of 1 2 right at kilo request taxi to yankee ramp.",
+          "sender": "Hint"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Sue #_## taxi yankee ramp via bravo yankee 1 yankee.",
+          "readback": "Yankee ramp via bravo yankee 1 yankee Su #_##.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "B-Y1",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y1-Y",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-Y2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y2-Ramp",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "KIWA 30L Arrival",
+      "paths": ["_30L-Arrival", "Taxi-K-to-Y-Ramp"],
+      "legs": [
+        {
+          "id": "_360-1-2",
+          "instruction": "Request a full stop landing from Gateway Tower. You're Souix #_##. Let them you're in the Gap and have information [weather].",
+          "readback": "Gateway Tower Su #_## Gap information [weather] requesting full stop.",
+          "sender": "Hint"
+        },
+        {
+          "id": "_360-2-2",
+          "instruction": "Sue #_## make left traffic runway 3 0 left.",
+          "readback": "Left traffic 3 0 left Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Turning-30L-Downwind",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_30L-Downwind",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_30L-Base",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_30L-Final",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_30L-Turning-K",
+          "instruction": "Sue #_## turn left at kilo contact ground.",
+          "readback": "Turn left at kilo contact ground Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Ask Gateway Ground for taxi to the yankee ramp.",
+          "readback": "Gateway Ground Su #_## clear of 3 0 left at kilo request taxi to yankee ramp.",
+          "sender": "Hint"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Sue #_## taxi yankee ramp via bravo yankee 1 yankee.",
+          "readback": "Yankee ramp via bravo yankee 1 yankee Su #_##.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "B-Y1",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y1-Y",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-Y2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y2-Ramp",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "KIWA Closed Traffic",
+      "paths": ["Taxi-Y-Ramp-to_12C", "_12-Closed-Traffic", "Taxi-K-to-Y-Ramp"],
+      "legs": [
+        {
+          "id": "Ramp-Y",
+          "instruction": "Ask Ground for closed traffic. You're Suoix #_##. You're at the Yankee ramp and have information [weather].",
           "readback": "Gateway Ground, Sue #_## at the yankee ramp with information [weather], request closed traffic.",
           "sender": "Hint"
         },
@@ -276,6 +599,187 @@
         },
         {
           "id": "K-Crossing-12R",
+          "instruction": "Sue #_## cross 1 2 right at kilo contact ground.",
+          "readback": "Cross runway 1 2 right at kilo contact ground Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Ask Gateway Ground for taxi to the yankee ramp.",
+          "readback": "Gateway Ground Su #_## clear of 1 2 right at kilo request taxi to yankee ramp.",
+          "sender": "Hint"
+        },
+        {
+          "id": "K-B",
+          "instruction": "Sue #_## taxi yankee ramp via bravo yankee 1 yankee.",
+          "readback": "Yankee ramp via bravo yankee 1 yankee Su #_##.",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "B-Y1",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y1-Y",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y-Y2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        },
+        {
+          "id": "Y2-Ramp",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Ground"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "KIWA One Stop-And-Go Followed by Full Stop",
+      "paths": ["_1-Stop-And-Go-Followed-By-Full-Stop", "Taxi-K-to-Y-Ramp"],
+      "legs": [
+        {
+          "id": "_360-1-3",
+          "instruction": "Request one stop-and-go followed by a full stop landing from Gateway Tower. You're Souix #_##. Let them you're in the Gap and have information [weather].",
+          "readback": "Gateway Tower su #_## Gap information [weather] requesting one stop-and-go followed by full stop.",
+          "sender": "Hint"
+        },
+        {
+          "id": "_360-2-3",
+          "instruction": "Sue #_## cross airport midfield, enter left downwind runway 1 2 left. Contact tower on 1 2 4.7 5.",
+          "readback": "Cross midfield enter left downwind runway 1 2 left 1 2 4.7 5 Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_360-3",
+          "instruction": "Contact Gateway Tower on 124.75 and let them know you're with them 12L.",
+          "readback": "Gateway Tower Su #_## with you 12 left.",
+          "sender": "Hint"
+        },
+        {
+          "id": "Turning-Midfield",
+          "instruction": "Sue #_## roger.",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Midfield",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Turning-12L-Downwind-1",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "Turning-12L-Downwind-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Downwind-2-2",
+          "instruction": "Sue #_## cleared stop and go runway 1 2 left.",
+          "readback": "Cleared stop and go runway 1 2 left Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Base-1",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Base-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Final-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Upwind-1-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Upwind-2-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Crosswind-1-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Crosswind-2-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Downwind-1-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Downwind-2-2",
+          "instruction": "Sue #_## cleared to land runway 1 2 center.",
+          "readback": "Cleared to land runway 1 2 center Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12L-Base-1-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12C-Base-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12C-Final-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "_12C-Upwind-1-2",
+          "instruction": "",
+          "readback": "",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-HOLD-SHORT-12R",
+          "instruction": "Sue #_## turn right on kilo, hold short runway 1 2 right.",
+          "readback": "Hold short runway 1 2 right Su #_##.",
+          "sender": "Gateway Tower"
+        },
+        {
+          "id": "K-Crossing-12R-2",
           "instruction": "Sue #_## cross 1 2 right at kilo contact ground.",
           "readback": "Cross runway 1 2 right at kilo contact ground Su #_##.",
           "sender": "Gateway Tower"
