@@ -7,5 +7,6 @@ interface Leg {
 interface Scenario {
   id: string;
   name: string;
+  paths: string[];
   legs: Leg[];
 }
