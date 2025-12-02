@@ -3,7 +3,6 @@
   right: 0.5rem;
   bottom: 0.5rem;
   width: 320px;
-  max-width: calc(100vw - 2rem);
   max-height: 30vh;
   background: rgba(16, 28, 51, 0.6);
   border-radius: 8px;
@@ -91,7 +90,8 @@
 }
 
 @keyframes hintPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -112,5 +112,6 @@
   .chatBox {
     top: 0.5rem;
     bottom: auto;
+    width: calc(100vw - 1rem);
   }
 }
